@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+header, footer {
+    background-color: black;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+header a {
+    color: white;
+    margin: 20px;
+}
+
+footer h3, footer p {
+    color: white;
+    margin: 0;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+main {
+    min-height: 795px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
