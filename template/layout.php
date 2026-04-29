@@ -1,21 +1,24 @@
 <!DOCTYPE html>
+<html lang="ru">
 <html>
 	<head>
+		<meta charset="UTF-8">
 		<title>{{ title }}</title>
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="/css/main.css">
 	</head>
 	<body>
-		<header>
-			<a>dgashashash</a>
-            <a>dgashashash</a>
-            <a>dgashashash</a>
+		<header class="center">
+			<nav>
+				{{ menu }}
+			</nav>
 		</header>
-		<main>
+
+		<main class="center column">
 			{{ content }}
 		</main>
-		<footer>
-			<h3>asdfasdf</h3>
-            <p>fasdf</p>
+
+		<footer class="center column">
+			{{ footer }}
         </footer>
 	</body>
 </html>

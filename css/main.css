@@ -1,20 +1,40 @@
+/*MARK: Основные стили
+*/
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.row {
+    flex-direction: row;
+}
+
+/*MARK: Стили для всех страниц
+*/
 * {
     margin: 0;
     padding: 0;
+    font-family: Arial;
 }
 
 a {
     text-decoration: none;
 }
 
+ul {
+    list-style-type: none;
+}
+
+
 header, footer {
     background-color: black;
     width: 100%;
     height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
 }
 
 header a {
@@ -22,22 +42,17 @@ header a {
     margin: 20px;
 }
 
-footer h3, footer p {
-    color: white;
-    margin: 0;
+header a:hover {
+    opacity: 0.7;
 }
 
-footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
 
 main {
     min-height: 795px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+}
+
+
+footer h3, footer p {
+    color: white;
+    margin: 0;
 }
