@@ -19,6 +19,7 @@
 
 		<footer class="center column">
 			{{ footer }}
+			<p>&copy; {{ year }}</p>
         </footer>
 	</body>
 </html>

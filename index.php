@@ -44,13 +44,14 @@
     $footer_query = "SELECT content FROM pages WHERE slug='footer'";
     $footer_res = mysqli_query($link, $footer_query);  // Выполняем запрос и получаем результат
     $footer = mysqli_fetch_assoc($footer_res);
-    $footer_content = $footer['content'];
+    $footer_content = $footer['content'] . '<p><?= date("Y") ?></p>';
 
 
     $layout = str_replace('{{ title }}', $title, $layout);              // Заменяем в макете {{ title }} на заголовок страницы
     $layout = str_replace('{{ menu }}', $menu_html, $layout);           // Заменяем в макете {{ menu }} на HTML код меню
     $layout = str_replace('{{ content }}', $content, $layout);          // Заменяем в макете {{ content }} на содержимое страницы
     $layout = str_replace('{{ footer }}', $footer_content, $layout);    // Заменяем в макете {{ footer }} на футер
+    $layout = str_replace('{{ year }}', date("Y"), $layout);            // Заменяем в макете {{ year }} на текущий год
 
     echo $layout;
 ?>
