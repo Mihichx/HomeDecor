@@ -10,6 +10,13 @@
     $layout = ob_get_clean();  // Загружаем макет страницы (в нашем случае template/layout.php)
 
 
+    // Достаем шапку
+    $stmt = $pdo->prepare("SELECT * FROM pages WHERE slug = :slug");
+    $stmt->execute([':slug' => 'header']);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $header = $row['content'];
+
+
     if ($params[0] == '') {
         $slug = 'index';
         include './scripts/page.php';
@@ -23,34 +30,42 @@
     }
 
 
-    // Достаем шапку
-    $stmt = $pdo->prepare("SELECT * FROM pages WHERE slug = :slug");
-    $stmt->execute([':slug' => 'header']);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    $header = $row['content'];
-
-
     // Достаем страницы для меню
-    $stmt = $pdo->query("SELECT slug, title FROM pages WHERE in_menu=1");
+    if ($params[0] == "admin" && $params[1] != "goods") {
+        $stmt = $pdo->query("SELECT slug, title FROM pages WHERE in_menu = 2 AND slug != 'admin'");
+    } elseif ($params[1] == "goods") {
+        $stmt = $pdo->query("SELECT slug, title FROM pages WHERE in_menu = 3");
+    } else {
+        $stmt = $pdo->query("SELECT slug, title FROM pages WHERE in_menu = 1");
+    }
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $menu_html = '<ul class="center row">';
     foreach ($rows as $row) {
         $path = htmlspecialchars($row['slug']);
-        $active = ($row['slug'] == $slug) ? ' active-link' : ''; // Добавляем класс, если slug совпадает
+        if ($params[0] == 'admin' && $params[1] != 'goods') {
+            $path = '/admin/' . $path;
+        }
+        if ($params[1] == 'goods') {
+            $path = '/admin/goods/' . $path;
+        }
+        $active = ($row['slug'] == $params[0] || $row['slug'] == $params[1] || $row['slug'] == $params[2]) ? 'active-link' : '';
         if (!empty($active)) {
             $menu_html .= "<li><a class='$active' style='color: black;'>" . htmlspecialchars($row['title']) . "</a></li>";
         } else {
-            $menu_html .= "<li><a href='/$path' class='hover' style='color: black;'>" . htmlspecialchars($row['title']) . "</a></li>";
+            $menu_html .= "<li><a href='$path' class='hover' style='color: black;'>" . htmlspecialchars($row['title']) . "</a></li>";
         }
     }
     $menu_html .= '</ul>';
 
 
     // Достаем футер
-    $stmt = $pdo->prepare("SELECT content FROM pages WHERE slug = :slug");
-    $stmt->execute([':slug' => 'footer']);
-    $footer = $stmt->fetch(PDO::FETCH_ASSOC);
-    $footer_content = $footer['content'];
+    if ($params[0] != "admin") {
+        $stmt = $pdo->prepare("SELECT content FROM pages WHERE slug = :slug");
+        $stmt->execute([':slug' => 'footer']);
+        $footer = $stmt->fetch(PDO::FETCH_ASSOC);
+        $footer_content = $footer['content'];
+        $footer_content = str_replace('{{ year }}', date("Y"), $footer_content);  // Заменяем в макете {{ year }} на текущий год
+    }
 
 
     $basket_class  = ($slug == 'basket') ? 'hover center active-icon' : 'hover center';
@@ -62,14 +77,13 @@
     $header = str_replace('{{ basket_img }}', $basket_img, $header);
     $header = str_replace('{{ profile_class }}', $profile_class, $header);
     $header = str_replace('{{ profile_img }}', $profile_img, $header);
-    $header = str_replace('{{ menu }}', $menu_html, $header);
     $header = str_replace('{{ header_content }}', $header_content, $header);
+    $header = str_replace('{{ menu }}', $menu_html, $header);
 
     $layout = str_replace('{{ title }}', $title, $layout);            // Заменяем в макете {{ title }} на заголовок страницы
     $layout = str_replace('{{ header }}', $header, $layout);  // Заменяем в макете {{ header }} на содержимое шапки
     $layout = str_replace('{{ content }}', $content, $layout);        // Заменяем в макете {{ content }} на содержимое страницы
     $layout = str_replace('{{ footer }}', $footer_content, $layout);  // Заменяем в макете {{ footer }} на футер
-    $layout = str_replace('{{ year }}', date("Y"), $layout);          // Заменяем в макете {{ year }} на текущий год
 
     echo $layout;
 ?>

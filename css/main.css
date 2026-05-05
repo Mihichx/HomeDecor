@@ -12,6 +12,19 @@
     margin: 0 !important;
 }
 
+.active-link1 {
+    background-color: #0084FF;
+    color: white !important;
+    padding: 0 15px;
+    /* Закругляем только нижние углы: слева-снизу и справа-снизу */
+    border-radius: 0px 0px 20px 20px;
+    margin: 0 !important;
+    
+    /* Если нужно прижать к нижнему краю родителя: */
+    /* position: absolute; */
+    /* bottom: 0; */
+}
+
 .active-icon {
     background-color: white;
     border-radius: 100px;
@@ -105,7 +118,8 @@ main {
 }
 
 
-footer {
+.footer {
+    width: 100%;
     background: #0084FF;
     height: 400px;
 }
