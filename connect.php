@@ -4,7 +4,7 @@
     $host = 'localhost';
     $user = 'root';
     $pass = '';
-    $db = 'engine'; 
+    $db = 'HomeDecor'; 
     $charset = 'utf8mb4';
 
     $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

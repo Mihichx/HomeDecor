@@ -4,8 +4,9 @@
     $page = $smt->fetch(PDO::FETCH_ASSOC);                       // Получаем страницу
 
     if ($page && $page['slug'] !== 'footer') {
-        $title = htmlspecialchars($page['title']);
-        $content = htmlspecialchars($page['content']);
+        $title = $page['title'];
+        $content = $page['content'];
+        $header_content = $page['header_content'];
     } else {
         header('HTTP/1.0 404 Not Found');
         $error = "Запрашиваемая страница не найдена";

@@ -1,4 +1,9 @@
 <?  
+    $stmt = $pdo->prepare("SELECT header_content FROM pages WHERE slug = :slug");
+    $stmt->execute([':slug' => 'catalog']);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $header_content = $row['header_content'];
+
     if (isset($params[1]) && $params[1] !== '') {  // Определяем какой у нас будет запрос
         $stmt = $pdo->prepare("SELECT * FROM products WHERE name = :name");
         $stmt->execute([':name' => $params[1]]);
