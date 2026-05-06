@@ -1,4 +1,5 @@
 <?
+    session_start();
     $pdo = require_once 'connect.php';                       // Подключаемся к базе данных (в файле connect.php создается переменная $link с соединением)
     $url = urldecode($_SERVER['REQUEST_URI']);              // Страница на которой зашли (например, /contact)
     
@@ -24,6 +25,8 @@
         include './scripts/catalog.php';
     } elseif ($params[0] == 'admin') {
         include './scripts/admin.php';
+    } elseif ($params[0] == 'profile') {
+        include './scripts/profile.php';
     } else {
         $slug = $params[0];
         include './scripts/page.php';
@@ -66,7 +69,6 @@
         $footer_content = $footer['content'];
         $footer_content = str_replace('{{ year }}', date("Y"), $footer_content);  // Заменяем в макете {{ year }} на текущий год
     }
-
 
     $basket_class  = ($slug == 'basket') ? 'hover center active-icon' : 'hover center';
     $basket_img     = ($slug == 'basket') ? './img/basket-b.png' : '../img/basket.png';

@@ -12,19 +12,6 @@
     margin: 0 !important;
 }
 
-.active-link1 {
-    background-color: #0084FF;
-    color: white !important;
-    padding: 0 15px;
-    /* Закругляем только нижние углы: слева-снизу и справа-снизу */
-    border-radius: 0px 0px 20px 20px;
-    margin: 0 !important;
-    
-    /* Если нужно прижать к нижнему краю родителя: */
-    /* position: absolute; */
-    /* bottom: 0; */
-}
-
 .active-icon {
     background-color: white;
     border-radius: 100px;
@@ -68,12 +55,20 @@
     margin: 15px;
 }
 
+.margin10 {
+    margin: 10px;
+}
+
+.margin5 {
+    margin: 5px;
+}
+
 /*MARK: Стили для всех страниц
 */
 * {
     margin: 0;
     padding: 0;
-    font-family: Roboto;
+    font-family: Arial;
 }
 
 a {
@@ -97,8 +92,24 @@ nav {
     margin-top: 10px;
 }
 
+.admin-input {
+    width: 400px;
+    height: 50px;
+    border: 2px solid #000000;
+    border-radius: 7px;
+    text-align: center;
+}
 
-header, footer {
+.admin-button {
+    width: 80px;
+    height: 30px;
+
+    border: 2px solid #000000;
+    border-radius: 86px;
+}
+
+
+header, footer {        
     width: 100%;
 }
 
