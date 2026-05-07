@@ -2,7 +2,8 @@
     session_start();
     $pdo = require_once 'connect.php';                       // Подключаемся к базе данных (в файле connect.php создается переменная $link с соединением)
     $url = urldecode($_SERVER['REQUEST_URI']);              // Страница на которой зашли (например, /contact)
-    
+    require_once './scripts/request.php';
+
     $slug = trim($url, '/');  // Убираем слеши в начале и в конце
     $params = explode('/', $slug);  // Разбиваем строку по слешам, чтобы получить массив параметров
 
@@ -10,11 +11,8 @@
     include './template/layout.php';
     $layout = ob_get_clean();  // Загружаем макет страницы (в нашем случае template/layout.php)
 
-
     // Достаем шапку
-    $stmt = $pdo->prepare("SELECT * FROM pages WHERE slug = :slug");
-    $stmt->execute([':slug' => 'header']);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $row = getPageBySlug($pdo, 'header');
     $header = $row['content'];
 
 
@@ -54,8 +52,10 @@
         $active = ($row['slug'] == $params[0] || $row['slug'] == $params[1] || $row['slug'] == $params[2]) ? 'active-link' : '';
         if (!empty($active)) {
             $menu_html .= "<li><a class='$active' style='color: black;'>" . htmlspecialchars($row['title']) . "</a></li>";
-        } else {
+        } elseif ($params[0] == 'admin') {
             $menu_html .= "<li><a href='$path' class='hover' style='color: black;'>" . htmlspecialchars($row['title']) . "</a></li>";
+        } else {
+            $menu_html .= "<li><a href='/$path' class='hover' style='color: black;'>" . htmlspecialchars($row['title']) . "</a></li>";
         }
     }
     $menu_html .= '</ul>';
@@ -63,22 +63,25 @@
 
     // Достаем футер
     if ($params[0] != "admin") {
-        $stmt = $pdo->prepare("SELECT content FROM pages WHERE slug = :slug");
-        $stmt->execute([':slug' => 'footer']);
-        $footer = $stmt->fetch(PDO::FETCH_ASSOC);
+        $footer = getPageBySlug($pdo, 'footer');
         $footer_content = $footer['content'];
         $footer_content = str_replace('{{ year }}', date("Y"), $footer_content);  // Заменяем в макете {{ year }} на текущий год
     }
 
-    $basket_class  = ($slug == 'basket') ? 'hover center active-icon' : 'hover center';
-    $basket_img     = ($slug == 'basket') ? './img/basket-b.png' : '../img/basket.png';
-    $profile_class = ($slug == 'profile') ? 'hover center active-icon' : 'hover center';
-    $profile_img    = ($slug == 'profile') ? './img/profile-b.png' : '../img/profile.png';
+    $basket_class = ($slug == 'basket') ? 'hover center active-icon' : 'hover center';
+    $basket_img = ($slug == 'basket') ? './img/basket-b.png' : '../img/basket.png';
+    if (isset($_SESSION['user_id'])) {
+        $profile_class = 'hover center active-profile';
+        $profile = $_SESSION['user_login'];
+    } else {
+        $profile_class = ($slug == 'profile') ? 'hover center active-icon' : 'hover center';
+        $profile = ($slug == 'profile') ? '<img class="margin15" src="./img/profile-b.png" alt="Профиль" style="max-width: 40px;">' : '<img class="margin15" src="../img/profile.png" alt="Профиль" style="max-width: 40px;">';
+    }
 
     $header = str_replace('{{ basket_class }}', $basket_class, $header);
     $header = str_replace('{{ basket_img }}', $basket_img, $header);
     $header = str_replace('{{ profile_class }}', $profile_class, $header);
-    $header = str_replace('{{ profile_img }}', $profile_img, $header);
+    $header = str_replace('{{ profile }}', $profile, $header);
     $header = str_replace('{{ header_content }}', $header_content, $header);
     $header = str_replace('{{ menu }}', $menu_html, $header);
 

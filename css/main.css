@@ -20,6 +20,9 @@
     margin: 10px;
 }
 
+.active-profile {
+    text-decoration: underline;
+}
 
 .center {
     display: flex;

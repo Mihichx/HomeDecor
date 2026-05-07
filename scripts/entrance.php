@@ -6,34 +6,34 @@
         exit;
     }
 
-    // Обработка формы входа
-    if (isset($_POST['login'], $_POST['password']) || isset($_POST['login1'])) {
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE login = :login AND password = :password");
-        $stmt->execute([':login' => $_POST['login'], ':password' => $_POST['password']]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Обработка форм
+    if (isset($_POST['login'], $_POST['password']) || isset($_POST['login1'], $_POST['password1'], $_POST['password_repeat'])) {
+        if (isset($_POST['login'], $_POST['password'])) {
+            $user = loginUser($pdo, $_POST['login'], $_POST['password']);
 
-        $stmt1 = $pdo->prepare("SELECT * FROM users WHERE login = :login");
-        $stmt1->execute([':login' => $_POST['login1']]);
-        $row1 = $stmt1->fetch(PDO::FETCH_ASSOC);
-        if (isset($_POST['login1'])) return;
-
-        if ($row && $row['role'] == 'admin' && $row['role'] == $expectation) {
-            $_SESSION['admin_id'] = $row['id'];
-            $_SESSION['admin_login'] = $row['login'];
-            header("Location: " . $_SERVER['REQUEST_URI']);
-            exit;
-        } elseif ($row && $row['role'] == 'moderator' && $row['role'] == $expectation) {
-            $_SESSION['moderator_id'] = $row['id'];
-            $_SESSION['moderator_login'] = $row['login'];
-            header("Location: " . $_SERVER['REQUEST_URI']);
-            exit;
-        } elseif ($row && $row['role'] == 'user' && $row['role'] == $expectation) {
-            $_SESSION['user_id'] = $row['id'];
-            $_SESSION['user_login'] = $row['login'];
-            header("Location: " . $_SERVER['REQUEST_URI']);
-            exit;
-        } else {
-            $error = "Неверный логин или пароль";
+            if ($user) {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_role'] = $user['role'];
+                $_SESSION['user_login'] = $user['login'];
+                
+                header("Location: " . $_SERVER['REQUEST_URI']);
+                exit;
+            } else {  
+                $error = "Неверные данные";
+            }
+        }
+        if (isset($_POST['login1'], $_POST['password1'], $_POST['password_repeat'])) {
+            if (examinationUser($pdo, $_POST['login1'])) {
+                $error = 'Такой пользователь уже есть';
+            } else {
+                if ($_POST['password1'] === $_POST['password_repeat']) {
+                    registrationUser($pdo, $_POST['login1'], $_POST['password1'], $_POST['password_repeat']);
+                    header("Location: " . $_SERVER['REQUEST_URI']);
+                    exit;
+                } else {
+                    $error = 'Пароли не совпадают';
+                }
+            }
         }
     }
 ?>
