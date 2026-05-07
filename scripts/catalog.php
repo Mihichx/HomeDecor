@@ -1,18 +1,13 @@
 <?  
-    $stmt = $pdo->prepare("SELECT header_content FROM pages WHERE slug = :slug");
-    $stmt->execute([':slug' => 'catalog']);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    $header_content = $row['header_content'];
+    $page = getPageBySlug($pdo, 'catalog');
+    $header_content = $page['header_content'];
 
     if (isset($params[1]) && $params[1] !== '') {  // Определяем какой у нас будет запрос
-        $stmt = $pdo->prepare("SELECT * FROM products WHERE name = :name");
-        $stmt->execute([':name' => $params[1]]);
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $rows = product($pdo, $params[1]);
         $title = "Товар: " . htmlspecialchars($params[1]);
     } else {
-        $stmt = $pdo->query("SELECT * FROM products");
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $title = "Каталог товаров";
+        $rows = products($pdo);
+        $title = $page['title'];
     }
 
     if (count($rows) == 0) {
@@ -29,18 +24,26 @@
             $price = htmlspecialchars($row['price']);
             $image = htmlspecialchars($row['image']);
             $description = htmlspecialchars($row['description']);
-
-            $value = "
-                <h2>$name</h2>
-                <img src='$image' style='max-width: 200px;'>
-                <p><b>Цена:</b> $price руб.</p>
-                <p>$description</p>
-            ";
+            $more_description = htmlspecialchars($row['more_description']);
+            
+            $card = getPageBySlug($pdo, 'card_product');
+            $value = $card['content'];
+            $value = str_replace('{{ name }}', $name, $value);
+            $value = str_replace('{{ image }}', $image, $value);
+            $value = str_replace('{{ price }}', $price, $value);
+            $value = str_replace('{{ description }}', $description, $value);
+            
+            $card1 = getPageBySlug($pdo, 'detailed_card_product');
+            $value1 = $card1['content'];
+            $value1 = str_replace('{{ name }}', $name, $value1);
+            $value1 = str_replace('{{ image }}', $image, $value1);
+            $value1 = str_replace('{{ price }}', $price, $value1);
+            $value1 = str_replace('{{ more_description }}', $more_description, $value1);
 
             if (!isset($params[1]) || $params[1] === '') {
                 $content .= "<a href='/catalog/$name'>$value</a>";
             } else {
-                $content .= $value;
+                $content .= $value1;
             }
         }
     }

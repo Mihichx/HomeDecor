@@ -1,7 +1,5 @@
 <?
-    $smt = $pdo->prepare("SELECT * FROM pages WHERE slug=:slug");  // Готовим SQL запрос, чтобы найти страницу с таким slug
-    $smt->execute([':slug' => $slug]);                            // Выполняем запрос, передавая параметр slug
-    $page = $smt->fetch(PDO::FETCH_ASSOC);                       // Получаем страницу
+    $page = getPageBySlug($pdo, $slug);             
 
     if ($page && $page['slug'] !== 'footer') {
         $title = $page['title'];
