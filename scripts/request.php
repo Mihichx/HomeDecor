@@ -38,14 +38,42 @@
         return true; 
     }
 
-    function product($pdo, $name) {
-        $stmt = $pdo->prepare("SELECT * FROM products WHERE name = :name");
-        $stmt->execute([':name' => $name]);
+    function getCategories($pdo) {
+        $stmt = $pdo->query("SELECT * FROM category");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function products($pdo) {
-        $stmt = $pdo->query("SELECT * FROM products");
+    function products($pdo, $href) {
+        $stmt = $pdo->prepare("SELECT id, name FROM category WHERE href = :href");
+        $stmt->execute([':href' => $href]);
+        $category = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$category) return null;
+
+        $stmt = $pdo->prepare("SELECT * FROM products WHERE category_id = :category_id");
+        $stmt->execute([':category_id' => $category['id']]);
+        $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return [
+            'info'  => $category,
+            'items' => $items
+        ];
+    }
+
+    function search($pdo, $table, $column, $value) {
+        $stmt = $pdo->prepare("SELECT * FROM $table WHERE $column LIKE :value");
+        $stmt->execute([':value' => "%$value%"]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }       
+    }
+
+    // function product($pdo, $name) {
+    //     $stmt = $pdo->prepare("SELECT * FROM products WHERE name = :name");
+    //     $stmt->execute([':name' => $name]);
+    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // }
+
+    // function products($pdo) {
+    //     $stmt = $pdo->query("SELECT * FROM products");
+    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // }       
 ?>
