@@ -803,6 +803,9 @@ footer h3, footer p {
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .logout-button {
     margin-top: auto;
@@ -1081,4 +1084,6 @@ footer h3, footer p {
 .auth-link {
     font-size: 14px;
     color: #0084FF;
+    background-color: white;
+    border: none;
 }
