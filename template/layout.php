@@ -5,6 +5,7 @@
 		<title>{{ title }}</title>
 		<link rel="icon" href="/img/logo.png" type="image/x-icon">
         <link rel="stylesheet" href="/css/main.css">
+		<script src="/js/interceptor.js"></script>
 	</head>
 	<body>
 		<header class="center column">

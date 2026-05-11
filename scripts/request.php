@@ -1,10 +1,12 @@
 <? 
+    // Получение страницы
     function getPageBySlug($pdo, $slug) {
         $stmt = $pdo->prepare("SELECT * FROM pages WHERE slug = :slug");
         $stmt->execute([':slug' => $slug]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // Проверка на существование юзера и дальнейшего его получения
     function loginUser($pdo, $login, $password) {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE login = :login");
         $stmt->execute([':login' => $login]);
@@ -17,25 +19,47 @@
         return false;
     }
 
-    function examinationUser($pdo, $login1) {
+    // Регистрация + проверка на существование логина
+    function registrationUser($pdo, $login1, $email1, $password1, $password_repeat) {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE login = :login");
         $stmt->execute([':login' => $login1]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+        if ($stmt->fetch()) return "Такой пользователь уже есть";
+        if  ($password1 !==  $password_repeat) return "Пароли не совпадают";
 
-    function registrationUser($pdo, $login1, $password1, $password_repeat) {
         $hashedPassword = password_hash($password1, PASSWORD_DEFAULT);
         $role = 'user';
         $date = date('Y-m-d');
 
-        $stmt = $pdo->prepare("INSERT INTO `users`(`login`, `password`, `role`, `date_regist`) VALUES (:login, :password, :role, :date_regist)");
+        $stmt = $pdo->prepare("INSERT INTO `users`(`login`, `email`, `password`, `role`, `date_regist`) VALUES (:login, :email, :password, :role, :date_regist)");
         $stmt->execute([
             ':login'       => $login1,
+            ':email'       => $email1,
             ':password'    => $hashedPassword, 
             ':role'        => $role,
             ':date_regist' => $date
         ]);
-        return true; 
+        return "Регистрация прошла успешно"; 
+    }
+
+    function updateUser($pdo, $userId, $data) {
+        // Начинаем строить запрос
+        $sql = "UPDATE users SET login = :login, email = :email";
+        $params = [
+            ':login' => $data['login'],
+            ':email' => $data['email'],
+            ':id'    => $userId
+        ];
+
+        // Если передан новый пароль, добавляем его в запрос
+        if (!empty($data['password'])) {
+            $sql .= ", password = :password";
+            $params[':password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        }
+
+        $sql .= " WHERE id = :id";
+
+        $stmt = $pdo->prepare($sql);
+        return $stmt->execute($params);
     }
 
     function getCategories($pdo) {
@@ -43,14 +67,22 @@
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function products($pdo, $href) {
+    function products($pdo, $href, $sort = 'default') {
         $stmt = $pdo->prepare("SELECT id, name FROM category WHERE href = :href");
         $stmt->execute([':href' => $href]);
         $category = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$category) return null;
+        
+        $sql = "SELECT * FROM products WHERE category_id = :category_id";
 
-        $stmt = $pdo->prepare("SELECT * FROM products WHERE category_id = :category_id");
+        if ($sort === 'price_asc') {
+            $sql .= " ORDER BY price ASC";
+        } elseif ($sort === 'price_desc') {
+            $sql .= " ORDER BY price DESC";
+        }
+    
+        $stmt = $pdo->prepare($sql);
         $stmt->execute([':category_id' => $category['id']]);
         $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -64,6 +96,15 @@
         $stmt = $pdo->prepare("SELECT * FROM $table WHERE $column LIKE :value");
         $stmt->execute([':value' => "%$value%"]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function addReview($pdo, $name, $rating, $text) {
+        $stmt = $pdo->prepare("INSERT INTO reviews (name, rating, text) VALUES (:name, :rating, :text)");
+        return $stmt->execute([
+            ':name'   => htmlspecialchars($name),
+            ':rating' => (int)$rating,
+            ':text'   => htmlspecialchars($text)
+        ]);
     }
 
     // function product($pdo, $name) {

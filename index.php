@@ -1,58 +1,68 @@
 <?
     session_start();
-    $pdo = require_once 'connect.php';                       // Подключаемся к базе данных (в файле connect.php создается переменная $link с соединением)
-    $url = urldecode($_SERVER['REQUEST_URI']);              // Страница на которой зашли (например, /contact)
+    $pdo = require_once 'connect.php';
+    $url_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $url = urldecode($url_path); 
     require_once './scripts/request.php';
 
-    $slug = trim($url, '/');  // Убираем слеши в начале и в конце
-    $params = explode('/', $slug);  // Разбиваем строку по слешам, чтобы получить массив параметров
+    $slug = trim($url, '/');
+    $params = explode('/', $slug);
 
     ob_start();
     include './template/layout.php';
-    $layout = ob_get_clean();  // Загружаем макет страницы (в нашем случае template/layout.php)
+    $layout = ob_get_clean();
 
-    // Достаем шапку
     $row = getPageBySlug($pdo, 'header');
-    $header = $row['content'];
+    $header = $row['content'] ?? '';
 
+    // Определяем основной раздел (проверка на пустой params[0])
+    $current_section = $params[0] ?? '';
 
-    if ($params[0] == '') {
+    if ($current_section == '') {
         $slug = 'index';
         include './scripts/page.php';
-    } elseif ($params[0] == 'catalog') {
+    } elseif ($current_section == 'catalog') {
         include './scripts/catalog.php';
-    } elseif ($params[0] == 'admin') {
+    } elseif ($current_section == 'admin') {
         include './scripts/admin.php';
-    } elseif ($params[0] == 'profile') {
+    } elseif ($current_section == 'profile') {
         include './scripts/profile.php';
+    } elseif ($current_section == 'basket') {
+        include './scripts/basket.php';
     } else {
-        $slug = $params[0];
+        $slug = $current_section;
         include './scripts/page.php';
     }
 
+    $param1 = $params[1] ?? null;
+    $param2 = $params[2] ?? null;
 
-    // Достаем страницы для меню
-    if ($params[0] == "admin" && $params[1] != "goods") {
-        $stmt = $pdo->query("SELECT slug, title FROM pages WHERE in_menu = 2 AND slug != 'admin'");
-    } elseif ($params[1] == "goods") {
+    if ($param1 == "goods") {
         $stmt = $pdo->query("SELECT slug, title FROM pages WHERE in_menu = 3");
+    } elseif ($current_section == "admin") {
+        $stmt = $pdo->query("SELECT slug, title FROM pages WHERE in_menu = 2 AND slug != 'admin'");
     } else {
         $stmt = $pdo->query("SELECT slug, title FROM pages WHERE in_menu = 1");
     }
+
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $menu_html = '<ul class="center row">';
     foreach ($rows as $row) {
-        $path = htmlspecialchars($row['slug']);
-        if ($params[0] == 'admin' && $params[1] != 'goods') {
+        $row_slug = $row['slug'];
+        $path = htmlspecialchars($row_slug);
+
+        if ($current_section == 'admin' && $param1 != 'goods') {
             $path = '/admin/' . $path;
-        }
-        if ($params[1] == 'goods') {
+        } elseif ($param1 == 'goods') {
             $path = '/admin/goods/' . $path;
         }
-        $active = ($row['slug'] == $params[0] || $row['slug'] == $params[1] || $row['slug'] == $params[2]) ? 'active-link' : '';
+
+        // БЕЗОПАСНАЯ проверка активной ссылки
+        $active = in_array($row_slug, $params) ? 'active-link' : '';
+
         if (!empty($active)) {
             $menu_html .= "<li><a class='$active' style='color: black;'>" . htmlspecialchars($row['title']) . "</a></li>";
-        } elseif ($params[0] == 'admin') {
+        } elseif ($current_section == 'admin') {
             $menu_html .= "<li><a href='$path' class='hover' style='color: black;'>" . htmlspecialchars($row['title']) . "</a></li>";
         } else {
             $menu_html .= "<li><a href='/$path' class='hover' style='color: black;'>" . htmlspecialchars($row['title']) . "</a></li>";
@@ -60,35 +70,43 @@
     }
     $menu_html .= '</ul>';
 
-
-    // Достаем футер
-    if ($params[0] != "admin") {
+    // Футер
+    if ($current_section != "admin") {
         $footer = getPageBySlug($pdo, 'footer');
-        $footer_content = $footer['content'];
-        $footer_content = str_replace('{{ year }}', date("Y"), $footer_content);  // Заменяем в макете {{ year }} на текущий год
+        $footer_content = $footer['content'] ?? '';
+        $footer_content = str_replace('{{ year }}', date("Y"), $footer_content);
     }
 
-    $basket_class = ($slug == 'basket') ? 'hover center active-icon' : 'hover center';
-    $basket_img = ($slug == 'basket') ? './img/basket-b.png' : '../img/basket.png';
-    if (isset($_SESSION['user_id'])) {
+    // Иконки и профиль
+    $is_basket = ($current_section == 'basket');
+    $basket_class = $is_basket ? 'hover center active-icon' : 'hover center';
+    $basket_img = $is_basket ? './img/basket-b.png' : '../img/basket.png';
+
+    if (isset($_SESSION['user']['id'])) {
         $profile_class = 'hover center active-profile';
-        $profile = $_SESSION['user_login'];
+        $profile = htmlspecialchars($_SESSION['user']['login']);
     } else {
-        $profile_class = ($slug == 'profile') ? 'hover center active-icon' : 'hover center';
-        $profile = ($slug == 'profile') ? '<img class="margin15" src="./img/profile-b.png" alt="Профиль" style="max-width: 40px;">' : '<img class="margin15" src="../img/profile.png" alt="Профиль" style="max-width: 40px;">';
+        $is_profile = ($current_section == 'profile');
+        $profile_class = $is_profile ? 'hover center active-icon' : 'hover center';
+        $profile_img = $is_profile ? './img/profile-b.png' : '../img/profile.png';
+        $profile = '<img class="margin15" src="'.$profile_img.'" alt="Профиль" style="max-width: 40px;">';
     }
 
-    $header = str_replace('{{ basket_class }}', $basket_class, $header);
-    $header = str_replace('{{ basket_img }}', $basket_img, $header);
-    $header = str_replace('{{ profile_class }}', $profile_class, $header);
-    $header = str_replace('{{ profile }}', $profile, $header);
-    $header = str_replace('{{ header_content }}', $header_content, $header);
-    $header = str_replace('{{ menu }}', $menu_html, $header);
+    // Финальная сборка
+    $replacements = [
+        '{{ basket_class }}'   => $basket_class,
+        '{{ basket_img }}'     => $basket_img,
+        '{{ profile_class }}'  => $profile_class,
+        '{{ profile }}'        => $profile,
+        '{{ header_content }}' => $header_content ?? '',
+        '{{ menu }}'           => $menu_html
+    ];
+    $header = str_replace(array_keys($replacements), array_values($replacements), $header);
 
-    $layout = str_replace('{{ title }}', $title, $layout);            // Заменяем в макете {{ title }} на заголовок страницы
-    $layout = str_replace('{{ header }}', $header, $layout);  // Заменяем в макете {{ header }} на содержимое шапки
-    $layout = str_replace('{{ content }}', $content, $layout);        // Заменяем в макете {{ content }} на содержимое страницы
-    $layout = str_replace('{{ footer }}', $footer_content, $layout);  // Заменяем в макете {{ footer }} на футер
+    $layout = str_replace('{{ title }}', $title, $layout);
+    $layout = str_replace('{{ header }}', $header, $layout);
+    $layout = str_replace('{{ content }}', $content, $layout);
+    $layout = str_replace('{{ footer }}', $footer_content ?? '', $layout);
 
     echo $layout;
 ?>
