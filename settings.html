@@ -2,42 +2,39 @@
     <div class="profile-edit-container">
 
         <div class="profile-avatar-block center column">
-            <img src="./img/profile.png" alt="Фото профиля">
+            <img src="../img/profile-b.png" alt="Фото профиля">
             <p class="change-photo">Изменить фото</p>
         </div>
 
-        <form class="profile-edit-form">
-
+        <form class="profile-edit-form" method="POST">    
             <div class="profile-edit-row">
                 <div class="profile-edit-field">
                     <label>Имя</label>
-                    <input type="text" value="Иван Иванович">
+                    <input type="text" name="login" value="{{ login }}" required>
                 </div>
 
                 <div class="profile-edit-field">
                     <label>Старый пароль</label>
-                    <input type="password" placeholder="Введите старый пароль">
+                    <input type="password" name="old_password" placeholder="Введите текущий пароль" required>
                 </div>
             </div>
 
             <div class="profile-edit-row">
                 <div class="profile-edit-field">
                     <label>Email</label>
-                    <input type="email" value="ivanivanov@gmail.com">
+                    <input type="email" name="email" value="{{ email }}" required>
                 </div>
 
                 <div class="profile-edit-field">
-                    <label>Новый пароль</label>
-                    <input type="password" placeholder="Введите новый пароль">
+                    <label>Новый пароль (необязательно)</label>
+                    <input type="password" name="new_password" placeholder="Введите новый пароль">
                 </div>
             </div>
 
             <div class="profile-edit-buttons center">
-                <button type="submit" class="save-button">Сохранить изменения</button>
-                <a href="#" class="cancel-button center">Отмена</a>
+                <button type="submit" name="update_profile" class="save-button">Сохранить изменения</button>
+                <a href="/profile" class="cancel-button center">Отмена</a>
             </div>
-
         </form>
-
     </div>
 </section>

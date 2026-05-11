@@ -1,8 +1,8 @@
 <section class="profile">
     <div class="profile-sidebar">
-        <img src="./img/profile.png" alt="Профиль">
-        <p class="profile-email">ivanivanov@gmail.com</p>
-        <a href="/settings" class="profile-button">Редактировать профиль</a>
+        <img src="./img/profile-b.png" alt="Профиль">
+        <p class="profile-email">{{ email }}</p>
+        <a href="/profile/settings" class="profile-button">Редактировать профиль</a>
         <form method="POST">
             <input type="hidden" name="logout" value="1">
             <button class="logout-button" type="submit">Выйти</button>
@@ -10,7 +10,7 @@
     </div>
 
     <div class="profile-content">
-        <h1>Иван Иванович</h1>
+        <h1>{{ login }}</h1>
         <div class="orders">
             <h2>История заказов</h2>
             <div class="order-card">

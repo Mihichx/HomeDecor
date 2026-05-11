@@ -42,21 +42,19 @@
         </div>
     </section>
 
-    <!-- Форма -->
-    <section class="form-section">
+    <section class="form-section center column">
         <h2>Оставить свой отзыв</h2>
-        <form class="review-form">
-            <input type="text" placeholder="Имя">
-            <select>
-                <option>Оценка</option>
-                <option>★★★★★</option>
-                <option>★★★★</option>
-                <option>★★★</option>
-                <option>★★</option>
-                <option>★</option>
+        <form id="reviewsForm" class="review-form center column">
+            <input type="text" name="rev_name" placeholder="Имя" value="{{ login }}" readonly>
+            <select name="rev_rating">
+                <option value="5">★★★★★</option>
+                <option value="4">★★★★</option>
+                <option value="3">★★★</option>
+                <option value="2">★★</option>
+                <option value="1">★</option>
             </select>
-            <textarea placeholder="Ваш отзыв"></textarea>
-            <button type="submit">отправить</button>
+            <textarea name="rev_text" placeholder="Ваш отзыв" required></textarea>
+            <button type="submit" name="send_review">Отправить</button>
         </form>
     </section>
 </div>

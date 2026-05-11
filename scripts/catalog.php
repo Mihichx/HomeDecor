@@ -1,40 +1,47 @@
 <?php
-    $category_slug = $params[1] ?? '';
     $page = getPageBySlug($pdo, 'catalog');
     $header_content = $page['header_content'];
+    $content = '';
+
+    $category_slug = $params[1] ?? '';
+
+    function card($pdo, $products) {
+        $product_page = getPageBySlug($pdo, 'card_product');
+        $card_template = $product_page['content'];
+        
+        $products_html = '';
+        foreach ($products as $row) {
+            $products_html .= str_replace(
+                ['{{ name }}', '{{ image }}', '{{ price }}', '{{ description }}'],
+                [
+                    htmlspecialchars($row['name']), 
+                    htmlspecialchars('/' . $row['image']), 
+                    htmlspecialchars($row['price']), 
+                    htmlspecialchars($row['description'])
+                ],
+                $card_template
+            );
+        }
+        return $products_html;
+    }
 
     // ОБРАБОТКА ПОИСКА
-    if (isset($_POST['search']) && !empty(trim($_POST['search']))) {
+    if (isset($_POST['search']) && !empty(trim($_POST['search']))) {  // Если у нас заполненное поле поиска
         $search_val = trim($_POST['search']);
-        $found_products = search($pdo, 'products', 'name', $search_val); // таблица products
-        
         $title = "Поиск: " . htmlspecialchars($search_val);
-        
-        if (empty($found_products)) {
-            $content = "<h2>По вашему запросу ничего не найдено</h2>";
-            $title = "Товар не найден";
+
+        $found_products = search($pdo, 'products', 'name', $search_val);
+
+        if (!empty($found_products)) {
+            $products_html = card($pdo, $found_products);
+            $content .= "<div class='vases-grid'>$products_html</div>";
         } else {
-            $product_page = getPageBySlug($pdo, 'card_product');
-            $card_template = $product_page['content'];
-            
-            $products_html = '';
-            foreach ($found_products as $row) {
-                $products_html .= str_replace(
-                    ['{{ name }}', '{{ image }}', '{{ price }}', '{{ description }}'],
-                    [
-                        htmlspecialchars($row['name']), 
-                        htmlspecialchars('/' . $row['image']), 
-                        htmlspecialchars($row['price']), 
-                        htmlspecialchars($row['description'])
-                    ],
-                    $card_template
-                );
-            }
-            $content = "<div class='vases-grid'>$products_html</div>";
+            $content .= "<h2>По вашему запросу ничего не найдено</h2>";
+            $title = "Товар не найден";
         }
     } else {
-        // ЛОГИКА КАТАЛОГА 
-        if ($category_slug === '') {
+    // ЛОГИКА КАТАЛОГА 
+        if ($category_slug === '') {  // Если мы на странице catalog без выбранной категории
             $title = 'Каталог';
             $template = $page['content'];
             $categories = getCategories($pdo);
@@ -47,47 +54,38 @@
                     $template
                 );
             }
-            $content = '<div class="container-catalog">' . $cards_html . '</div>';
-
-        } else {
-            $data = products($pdo, $params[1]);
+            $content .= "<div class='container-catalog'>$cards_html</div>";
+        } else {  // Если у нас выбрана категория 
+            $sort = $_GET['sort'] ?? 'default';
+            $data = products($pdo, $params[1], $sort);
 
             if ($data) {
                 $category_name = $data['info']['name'];
                 $products = $data['items'];
                 $title = $category_name;
-
-                $product_page = getPageBySlug($pdo, 'card_product');
-                $card_template = $product_page['content'];
                 
-                $products_html = '';
-                foreach ($products as $row) {
-                    $products_html .= str_replace(
-                        ['{{ name }}', '{{ image }}', '{{ price }}', '{{ description }}'],
-                        [
-                            htmlspecialchars($row['name']), 
-                            htmlspecialchars('/' . $row['image']), 
-                            htmlspecialchars($row['price']), 
-                            htmlspecialchars($row['description'])
-                        ],
-                        $card_template
-                    );
-                }
+                $products_html = card($pdo, $products);
 
-                $content = '
-                    <div class="vases-header">
-                        <div class="sort">
-                            <p>Сортировать по:</p>
-                            <select>
-                                <option>Цене по возрастанию</option>
-                                <option>Цене по убыванию</option>
-                            </select>
+                if ($products_html) {
+                    $asc_selected = ($sort == 'price_asc') ? 'selected' : '';
+                    $desc_selected = ($sort == 'price_desc') ? 'selected' : '';
+
+                    $content .= '
+                        <div class="vases-header">
+                            <div class="sort">
+                                <p>Сортировать по:</p>
+                                <select onchange="location.href = \'?sort=\' + this.value;">
+                                    <option value="default">По умолчанию</option>
+                                    <option value="price_asc" ' . $asc_selected . '>Цене по возрастанию цены</option>
+                                    <option value="price_desc" ' . $desc_selected . '>Цене по убыванию цены</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                ';
+                    ';
+                }
                 $content .= "<div class='vases-grid'>$products_html</div>";
             } else {
-                $content = "<h2>По вашему запросу ничего не найдено</h2>";
+                $content .= "<h2>По вашему запросу ничего не найдено</h2>";
                 $title = "Товар не найден";
             }
         }

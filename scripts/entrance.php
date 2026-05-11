@@ -2,8 +2,14 @@
     // Логика выхода
     if (isset($_POST['logout'])) {
         session_unset();
-        header("Location: /index");
-        exit;
+        session_destroy(); 
+        $redirect_url = "/index"; 
+        $color_status = "green";
+        
+        if (empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+            header("Location: /index"); 
+            exit;
+        }
     }
 
     // Обработка форм
@@ -12,28 +18,23 @@
             $user = loginUser($pdo, $_POST['login'], $_POST['password']);
 
             if ($user) {
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_role'] = $user['role'];
-                $_SESSION['user_login'] = $user['login'];
-                
-                header("Location: " . $_SERVER['REQUEST_URI']);
-                exit;
+                $_SESSION['user'] = [
+                    'id'    => $user['id'],
+                    'role'  => $user['role'],
+                    'login' => $user['login'],
+                    'email' => $user['email']
+                ];
+                // ОБЯЗАТЕЛЬНО:
+                $color_status = "green"; 
+                $status = "Успешный вход!";
             } else {  
-                $error = "Неверные данные";
+                $status = "Неверные данные";
             }
         }
-        if (isset($_POST['login1'], $_POST['password1'], $_POST['password_repeat'])) {
-            if (examinationUser($pdo, $_POST['login1'])) {
-                $error = 'Такой пользователь уже есть';
-            } else {
-                if ($_POST['password1'] === $_POST['password_repeat']) {
-                    registrationUser($pdo, $_POST['login1'], $_POST['password1'], $_POST['password_repeat']);
-                    header("Location: " . $_SERVER['REQUEST_URI']);
-                    exit;
-                } else {
-                    $error = 'Пароли не совпадают';
-                }
-            }
+    
+        if (isset($_POST['login1'], $_POST['e-mail1'], $_POST['password1'], $_POST['password_repeat'])) {
+            $status = registrationUser($pdo, $_POST['login1'], $_POST['e-mail1'], $_POST['password1'], $_POST['password_repeat']);
+            $color_status = (($status === "Регистрация прошла успешно") !== false) ? "green" : "red";
         }
     }
 ?>
