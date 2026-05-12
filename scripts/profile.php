@@ -1,8 +1,8 @@
 <?php 
     $redirect_url = "/profile"; 
-    include './scripts/entrance.php'; // Логика логина/регистрации (там уже должны быть $status и $color_status)
+    include './scripts/entrance.php';  // Логика логина/регистрации (должны быть $status и $color_status и redirect  пор желанию;)
     
-    // ЛОГИКА ОБНОВЛЕНИЯ
+    // Логика обновления ЛК
     if (isset($_POST['update_profile']) && isset($_SESSION['user']['id'])) {
         $user_id = $_SESSION['user']['id'];
         
@@ -46,7 +46,7 @@
         exit;
     }
 
-    // ОПРЕДЕЛЯЕМ, КАКУЮ СТРАНИЦУ ПОКАЗАТЬ
+    // Определяем, какую страницу показать
     if (isset($_SESSION['user']['id'])) {
         // Логика для наших !
         if (isset($params[1]) && $params[1] === 'settings') {

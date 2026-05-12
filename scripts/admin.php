@@ -5,7 +5,7 @@
     $content = '';
 
     $redirect_url = "/admin"; 
-    include './scripts/entrance.php';
+    include './scripts/entrance.php';  // Логика логина/регистрации (должны быть $status и $color_status и redirect  пор желанию;)
 
     if (isset($_SESSION['user']['id'])) {
         if ($_SESSION['user']['role'] === 'admin') {
@@ -34,6 +34,7 @@
         $content .= $page['content']; 
     }
 
+    // --- AJAX ОТВЕТ ---
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
         header('Content-Type: application/json');
         

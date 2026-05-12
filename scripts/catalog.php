@@ -3,9 +3,7 @@
     $header_content = $page['header_content'];
     $content = '';
 
-    $category_slug = $params[1] ?? '';
-
-    function card($pdo, $products) {
+    function card($pdo, $products) {  // Функция для формирования карточки товара
         $product_page = getPageBySlug($pdo, 'card_product');
         $card_template = $product_page['content'];
         
@@ -25,7 +23,7 @@
         return $products_html;
     }
 
-    // ОБРАБОТКА ПОИСКА
+    // Обработка поиска
     if (isset($_POST['search']) && !empty(trim($_POST['search']))) {  // Если у нас заполненное поле поиска
         $search_val = trim($_POST['search']);
         $title = "Поиск: " . htmlspecialchars($search_val);
@@ -40,7 +38,8 @@
             $title = "Товар не найден";
         }
     } else {
-    // ЛОГИКА КАТАЛОГА 
+    // Логика каталога 
+        $category_slug = $params[1] ?? '';
         if ($category_slug === '') {  // Если мы на странице catalog без выбранной категории
             $title = 'Каталог';
             $template = $page['content'];

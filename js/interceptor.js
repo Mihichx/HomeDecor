@@ -31,6 +31,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
 
+            if (result.data && result.data.discount_multiplier) {
+                const sumElm = document.getElementById('sum');
+                const finalSumElm = document.getElementById('sum');
+                
+                if (sumElm && finalSumElm) {
+                    // Берем число из "Сумма", убирая лишнее
+                    let currentSum = +sumElm.innerHTML.replace(/[^0-9]/g, '');
+                    // Считаем итог
+                    let newTotal = Math.round(currentSum * result.data.discount_multiplier);
+                    finalSumElm.innerHTML = newTotal.toLocaleString('ru-RU');
+                }
+            }
+
             // Если сервер прислал инструкцию к редиректу
             if (result.redirect) {
                 window.location.href = result.redirect;

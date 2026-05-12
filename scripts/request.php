@@ -41,8 +41,8 @@
         return "Регистрация прошла успешно"; 
     }
 
+    // Обновление данных ЛК
     function updateUser($pdo, $userId, $data) {
-        // Начинаем строить запрос
         $sql = "UPDATE users SET login = :login, email = :email";
         $params = [
             ':login' => $data['login'],
@@ -62,11 +62,13 @@
         return $stmt->execute($params);
     }
 
+    // Получение всех каталогов
     function getCategories($pdo) {
         $stmt = $pdo->query("SELECT * FROM category");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Получение продуктов по категории или сортировки
     function products($pdo, $href, $sort = 'default') {
         $stmt = $pdo->prepare("SELECT id, name FROM category WHERE href = :href");
         $stmt->execute([':href' => $href]);
@@ -92,17 +94,29 @@
         ];
     }
 
+    // Поиск пор данным: таблица, столбец, что
     function search($pdo, $table, $column, $value) {
         $stmt = $pdo->prepare("SELECT * FROM $table WHERE $column LIKE :value");
         $stmt->execute([':value' => "%$value%"]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Добавление отзыва 
     function addReview($pdo, $name, $rating, $text) {
         $stmt = $pdo->prepare("INSERT INTO reviews (name, rating, text) VALUES (:name, :rating, :text)");
         return $stmt->execute([
             ':name'   => htmlspecialchars($name),
             ':rating' => (int)$rating,
+            ':text'   => htmlspecialchars($text)
+        ]);
+    }
+
+    // Добавление заявки на обратную связь 
+    function addСonnection($pdo, $name, $email, $text) {
+        $stmt = $pdo->prepare("INSERT INTO contact (name, email, text) VALUES (:name, :email, :text)");
+        return $stmt->execute([
+            ':name'   => htmlspecialchars($name),
+            ':email'  => htmlspecialchars($email),
             ':text'   => htmlspecialchars($text)
         ]);
     }

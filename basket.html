@@ -1,67 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/main.css">
-</head>
-<body>
-    
-    <div class="cart-container">
-        <h1 class="cart-title">Моя корзина</h1>
+<div class="cart-container">
+    <h1 class="cart-title">Моя корзина</h1>
 
-        <div class="cart-top">
-            <div class="coupon">
-                <label for="coupon-input">Введите код купона для скидки:</label>
-                <div class="coupon-input-wrap">
-                    <input type="text">
-                    <button class="coupon-btn">›</button>
-                </div>
-            </div>
-            <div class="total">
-                <p class="total-label">Итого:</p>
-                <p class="total-sum">810 руб.</p>
-            </div>
-            <button class="arrange">Оформить заказ</button>
+    <div class="cart-top">
+        <div class="coupon">
+            <label for="coupon-input">Введите код купона для скидки:</label>
+            <form id="promoForm" class="coupon-input-wrap">
+                <input type="text" name="promo_code">
+                <button type="submit" name="apply_promo" class="coupon-btn">›</button>
+            </form>
         </div>
-
-        <div class="cart-bottom">
-
-            <div class="cart-bottom-header">
-                <div class="filter">
-                    <input type="text" placeholder="Фильтр">
-                    <button class="filter-clear">×</button>
-                </div>
-                <p class="items-count">В корзине 1 товар</p>
-            </div>
-
-            <!-- товар -->
-            <div class="cart-item">
-                <div class="item-image">
-                    <img src="img/vase1.jpg" alt="Ваза">
-                </div>
-
-                <div class="item-info">
-                    <h3 class="item-name">Ваза из прозрачного стекла 15 см</h3>
-                    <p class="item-number">Номер товара:<br>10187</p>
-                </div>
-
-                <div class="item-price">
-                    <p class="price-one">810 руб.</p>
-                    <p class="price-label">цена за 1 шт.</p>
-                </div>
-
-                <div class="item-quantity">
-                    <button class="btn-quantity">−</button>
-                    <input type="text" value="1" class="quantity-input">
-                    <button class="btn-quantity">+</button>
-                </div>
-
-                <div class="item-total">810 руб.</div>
-            </div>
+        <div class="total">
+            <p class="total-label">Итого:</p>
+            <p id="sum" class="total-sum">810 руб.</p>
         </div>
+        <button class="arrange">Оформить заказ</button>
     </div>
 
-</body>
-</html>
+    <div class="cart-bottom">
+
+        <div class="cart-bottom-header">
+            <div class="filter">
+                <input type="text" placeholder="Фильтр">
+                <button class="filter-clear">×</button>
+            </div>
+            <p class="items-count">В корзине 1 товар</p>
+        </div>
+
+        <!-- товар -->
+        <div class="cart-item">
+            <div class="item-image">
+                <img src="img/vase1.jpg" loading="lazy" alt="Ваза">
+            </div>
+
+            <div class="item-info">
+                <h3 class="item-name">Ваза из прозрачного стекла 15 см</h3>
+                <p class="item-number">Номер товара:<br>10187</p>
+            </div>
+
+            <div class="item-price">
+                <p class="price-one">810 руб.</p>
+                <p class="price-label">цена за 1 шт.</p>
+            </div>
+
+            <div class="item-quantity">
+                <button class="btn-quantity">−</button>
+                <input type="text" value="1" class="quantity-input">
+                <button class="btn-quantity">+</button>
+            </div>
+
+            <div class="item-total">810 руб.</div>
+        </div>
+    </div>
+</div>

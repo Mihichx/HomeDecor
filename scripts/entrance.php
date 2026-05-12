@@ -24,7 +24,6 @@
                     'login' => $user['login'],
                     'email' => $user['email']
                 ];
-                // ОБЯЗАТЕЛЬНО:
                 $color_status = "green"; 
                 $status = "Успешный вход!";
             } else {  
