@@ -284,12 +284,12 @@ footer h3, footer p {
   font-size: 25px;
 }
 
-.reviews{
+.review{
   background: #0084FF;
   padding: 60px 0;
 }
 
-.review-card{
+.reviews-card{
   width: 80%;
   margin: 0 auto 40px;
   background: white;
@@ -299,7 +299,7 @@ footer h3, footer p {
   gap: 20px;
 }
 
-.review-card img{
+.reviews-card img{
   width: 70px;
   height: 70px;
   border-radius: 50%;
