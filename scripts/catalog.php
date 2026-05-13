@@ -1,24 +1,27 @@
 <?php
     $page = getPageBySlug($pdo, 'catalog');
     $header_content = $page['header_content'];
-    $content = '';
+    $content = "";
 
     function card($pdo, $products) {  // Функция для формирования карточки товара
         $product_page = getPageBySlug($pdo, 'card_product');
         $card_template = $product_page['content'];
         
-        $products_html = '';
+        $products_html = "";
         foreach ($products as $row) {
-            $products_html .= str_replace(
-                ['{{ name }}', '{{ image }}', '{{ price }}', '{{ description }}'],
+            $product_url = "./vases/detailed_card_product?id=" . $row['id'];
+            $card_content = str_replace(
+                ['{{ name }}', '{{ image }}', '{{ price }}', '{{ description }}', '{{ product_url }}'],
                 [
                     htmlspecialchars($row['name']), 
                     htmlspecialchars('/' . $row['image']), 
                     htmlspecialchars($row['price']), 
-                    htmlspecialchars($row['description'])
+                    htmlspecialchars($row['description']),
+                    htmlspecialchars($product_url)
                 ],
                 $card_template
             );
+            $products_html .= $card_content;
         }
         return $products_html;
     }
@@ -28,7 +31,7 @@
         $search_val = trim($_POST['search']);
         $title = "Поиск: " . htmlspecialchars($search_val);
 
-        $found_products = search($pdo, 'products', 'name', $search_val);
+        $found_products = searchALL($pdo, 'products', 'name', $search_val);
 
         if (!empty($found_products)) {
             $products_html = card($pdo, $found_products);
@@ -37,6 +40,27 @@
             $content .= "<h2>По вашему запросу ничего не найдено</h2>";
             $title = "Товар не найден";
         }
+    } elseif (isset($params[2]) && $params[2] == 'detailed_card_product') {
+        $product_page_more = getPageBySlug($pdo, 'detailed_card_product');
+        $found_products = searchALL($pdo, 'products', 'id', $_GET['id']);
+        $title = $found_products[0]['name'];
+        $products_html = str_replace(
+            ['{{ img }}', '{{ id }}', '{{ material }}', '{{ color }}', '{{ height }}', '{{ length }}', '{{ width }}', '{{ weight }}', '{{ price }}', '{{ name }}'],
+            [   
+                htmlspecialchars('/' . $found_products[0]['image']), 
+                htmlspecialchars($found_products[0]['id']), 
+                htmlspecialchars($found_products[0]['material']), 
+                htmlspecialchars($found_products[0]['color']), 
+                htmlspecialchars($found_products[0]['height']),
+                htmlspecialchars($found_products[0]['length']),
+                htmlspecialchars($found_products[0]['width']),
+                htmlspecialchars($found_products[0]['weight']),
+                htmlspecialchars($found_products[0]['price']),
+                htmlspecialchars($found_products[0]['name'])
+            ],
+            $product_page_more['content']
+        );
+        $content .= "$products_html";
     } else {
     // Логика каталога 
         $category_slug = $params[1] ?? '';
@@ -45,7 +69,7 @@
             $template = $page['content'];
             $categories = getCategories($pdo);
             
-            $cards_html = '';
+            $cards_html = "";
             foreach ($categories as $row) {
                 $cards_html .= str_replace(
                     ['{{ name }}', '{{ image }}', '{{ href }}'], 

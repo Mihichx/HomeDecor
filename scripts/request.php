@@ -94,8 +94,8 @@
         ];
     }
 
-    // Поиск пор данным: таблица, столбец, что
-    function search($pdo, $table, $column, $value) {
+    // Поиск всех элементов по данным: таблица, столбец, что
+    function searchALL($pdo, $table, $column, $value) {
         $stmt = $pdo->prepare("SELECT * FROM $table WHERE $column LIKE :value");
         $stmt->execute([':value' => "%$value%"]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -112,12 +112,22 @@
     }
 
     // Добавление заявки на обратную связь 
-    function addСonnection($pdo, $name, $email, $text) {
-        $stmt = $pdo->prepare("INSERT INTO contact (name, email, text) VALUES (:name, :email, :text)");
+    function addFeedback($pdo, $name, $email, $text) {
+        $stmt = $pdo->prepare("INSERT INTO feedback (name, email, text) VALUES (:name, :email, :text)");
         return $stmt->execute([
             ':name'   => htmlspecialchars($name),
             ':email'  => htmlspecialchars($email),
             ':text'   => htmlspecialchars($text)
+        ]);
+    }
+
+    // Добавление заявки на связь с клиентом 
+    function addContact($pdo, $name, $email, $number) {
+        $stmt = $pdo->prepare("INSERT INTO contact_you (name, email, number) VALUES (:name, :email, :number)");
+        return $stmt->execute([
+            ':name'   => htmlspecialchars($name),
+            ':email'  => htmlspecialchars($email),
+            ':number'   => htmlspecialchars($number)
         ]);
     }
 

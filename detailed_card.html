@@ -1,30 +1,30 @@
 <section class="product-card">
     <div class="product-container center column">
-        <h1 class="product-title">Ваза из прозрачного стекла 11 см</h1>
+        <h1 class="product-title">{{ title }}</h1>
         
         <div class="product-main center row">
             <!-- Фото -->
             <div class="product-image">
-                <img src="/img/vase1.jpg" alt="Ваза">
+                <img src="{{ img }}" alt="Товар">
             </div>
 
             <!-- Характеристики -->
             <div class="product-info margin15">
                 <ul class="specs-list">
-                    <li><span>номер</span><span>67541</span></li>
-                    <li><span>материал</span><span>стекло</span></li>
-                    <li><span>цвет</span><span>прозрачный</span></li>
-                    <li><span>высота, см</span><span>11</span></li>
-                    <li><span>длина, см</span><span>13</span></li>
-                    <li><span>ширина, см</span><span>13</span></li>
-                    <li><span>вес нетто, кг</span><span>0.5</span></li>
+                    <li><span>номер</span><span>{{ id }}</span></li>
+                    <li><span>материал</span><span>{{ material }}</span></li>
+                    <li><span>цвет</span><span>{{ color }}</span></li>
+                    <li><span>высота, см</span><span>{{ height }}</span></li>
+                    <li><span>длина, см</span><span>{{ length }}</span></li>
+                    <li><span>ширина, см</span><span>{{ width }}</span></li>
+                    <li><span>вес нетто, кг</span><span>{{ weight }}</span></li>
                 </ul>
             </div>
 
             <!-- Блок цены и действий -->
             <div class="buy-block margin15">
                 <div class="price-container">
-                    <span id="base-price" data-price="1180">1 180</span> руб.
+                    <span id="base-price" data-price="1180">{{ price }}</span> руб.
                 </div>
                 
                 <div class="quantity-controls">
@@ -34,7 +34,7 @@
                         <input type="number" id="count" value="1" readonly>
                         <button type="button" class="plus">+</button>
                     </div>
-                    <p class="total-hint">шт на сумму <span id="total-sum">1 180</span> руб.</p>
+                    <p class="total-hint">шт на сумму <span id="total-sum">{{ price }}</span> руб.</p>
                 </div>
 
                 <div class="buy-buttons">
@@ -50,3 +50,26 @@
         </div>
     </div>
 </section>
+<div class="cart-item">
+    <div class="item-image">
+        <img src="{{ img }}" loading="lazy" alt="Ваза">
+    </div>
+
+    <div class="item-info">
+        <h3 class="item-name">{{ name }}</h3>
+        <p class="item-number">Номер товара:<br>{{ id }}</p>
+    </div>
+
+    <div class="item-price">
+        <p class="price-one">{{ price }} руб.</p>
+        <p class="price-label">цена за 1 шт.</p>
+    </div>
+
+    <div class="item-quantity">
+        <button class="btn-quantity">−</button>
+        <input type="text" value="1" class="quantity-input">
+        <button class="btn-quantity">+</button>
+    </div>
+
+    <div class="item-total">{{ price }} руб.</div>
+</div>

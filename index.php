@@ -80,7 +80,7 @@
     // Иконки и профиль
     $is_basket = ($current_section == 'basket');
     $basket_class = $is_basket ? 'hover center active-icon' : 'hover center';
-    $basket_img = $is_basket ? './img/basket-b.png' : '../img/basket.png';
+    $basket_img = $is_basket ? '/img/basket-b.png' : '/img/basket.png';
 
     if (isset($_SESSION['user']['id'])) {
         $profile_class = 'hover center active-profile';
@@ -88,7 +88,7 @@
     } else {
         $is_profile = ($current_section == 'profile');
         $profile_class = $is_profile ? 'hover center active-icon' : 'hover center';
-        $profile_img = $is_profile ? './img/profile-b.png' : '../img/profile.png';
+        $profile_img = $is_profile ? '/img/profile-b.png' : '/img/profile.png';
         $profile = '<img class="margin15" src="'.$profile_img.'" alt="Профиль" style="max-width: 40px;">';
     }
 

@@ -37,7 +37,7 @@
         // --- AJAX ОТВЕТ ---
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             header('Content-Type: application/json');
-            echo json_encode($response); 
+            echo json_encode($response);    
             exit; 
         }
     }
@@ -51,7 +51,30 @@
         $text = trim($_POST['rev_text1']);
 
         if (!empty($name) && !empty($email) && !empty($text)) {
-            addСonnection($pdo, $name, $email, $text);
+            addFeedback($pdo, $name, $email, $text);
+            $response = ['status' => "Мы с вами свяжемся", 'color' => "green"];
+        } else {
+            $response['status'] = "Заполните все поля!";
+        }
+
+        // --- AJAX ОТВЕТ ---
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            header('Content-Type: application/json');
+            echo json_encode($response); 
+            exit; 
+        }
+    }
+
+    // Форма отправки обратной связи
+    if (isset($_POST['contact_you'])) {
+        $response = ['status' => '', 'color' => 'red'];
+
+        $name = trim($_POST['rev_name2']);
+        $email = $_POST['rev_email2'];
+        $number = trim($_POST['rev_number']);
+
+        if (!empty($name) && !empty($email) && !empty($number)) {
+            addContact($pdo, $name, $email, $number);
             $response = ['status' => "Мы с вами свяжемся", 'color' => "green"];
         } else {
             $response['status'] = "Заполните все поля!";

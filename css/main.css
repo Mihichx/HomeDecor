@@ -1487,10 +1487,10 @@ footer h3, footer p {
 }
 
 .product-card img {
-    height: 170px;
+    width: 200px;
+    height: 200px;
     object-fit: contain;
     margin-bottom: 15px;
-    width: 100%;
 }
 
 .product-info {
@@ -1502,7 +1502,6 @@ footer h3, footer p {
     flex-direction: column;
     align-items: center;
     color: white;
-    height: 100px;
 }
 
 .product-info h3 {
