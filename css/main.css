@@ -1341,6 +1341,298 @@ footer h3, footer p {
     text-align: right;
 }
 
+/* MARK: оформление заказа */
+.container-checkout {
+    max-width: 1500px;
+    padding: 40px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    background-color: white;
+    box-sizing: border-box;
+}
+
+.container-checkout h1 {
+    width: 100%;
+    font-size: 32px;
+    font-weight: 400;
+    color: black;
+    margin-bottom: 10px;
+}
+
+/* Левая колонка — 2/3 ширины */
+.left-side {
+    flex: 2;
+    min-width: 280px;
+}
+
+/* Правая колонка — 1/3 ширины */
+.right-side {
+    flex: 1;
+    min-width: 260px;
+    background-color: #EBEBEB;
+    padding: 20px;
+    border-radius: 15px;
+    height: fit-content;
+}
+
+.delivery {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.delivery label {
+    font-size: 18px;
+    font-weight: 500;
+    color: black;
+}
+
+.delivery input {
+    flex: 2;
+    padding: 10px 15px;
+    border: 1px solid #0084FF;
+    border-radius: 8px;
+    font-size: 16px;
+    background: white;
+    box-sizing: border-box;
+}
+
+.delivery select {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid #0084FF;
+    border-radius: 8px;
+    font-size: 16px;
+    background: white;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.buyer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.buyer h2 {
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+}
+
+.btn-login {
+    background-color: #0084FF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.btn-login:hover {
+    background: #0056b3;
+    transform: scale(1.02);
+}
+
+.row-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.row-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.row-3 input,
+.row-2 input,
+.left-side textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #0084FF;
+    border-radius: 8px;
+    font-size: 15px;
+    background: white;
+    box-sizing: border-box;
+}
+
+.left-side textarea {
+    min-height: 90px;
+    resize: vertical;
+    margin-bottom: 25px;
+    box-sizing: border-box;
+}
+
+/* Способы оплаты */
+.payment h2 {
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+    margin-bottom: 15px;
+}
+
+.payment-methods {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.payment-card {
+    border: 1px solid #0084FF;
+    border-radius: 12px;
+    padding: 15px 6px;
+    text-align: center;
+    font-size: 13px;
+    background-color: white;
+    color: rgb(59, 59, 59);
+    min-height: 125px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.payment-card:hover {
+    background-color: #e6f4ff;
+    border-color: #007bff;
+    transform: translateY(-2px);
+}
+
+/* Чекбоксы */
+.checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.checkbox-row a {
+    color: #0084FF;
+    text-decoration: none;
+}
+
+.checkbox-row a:hover {
+    text-decoration: underline;
+}
+
+/* Кнопка оформления */
+.btn-order {
+    background-color: #0084FF;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.btn-order:hover {
+    background: #0056b3;
+    transform: scale(1.02);
+}
+
+.order-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.order-card-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: black;
+}
+
+.order-product {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.product-img img {
+    width: 80px;
+    height: auto;
+}
+
+.product-info {
+    font-size: 14px;
+    line-height: 1.4;
+    color: black;
+}
+
+.product-price {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #8b8b8b;
+}
+
+.order-total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 15px;
+    border-bottom: 2px solid white;
+    margin-bottom: 15px;
+}
+
+.coupon-section {
+    margin-bottom: 20px;
+}
+
+.coupon-label {
+    font-size: 13px;
+    color: #7d7d7d;
+    margin-bottom: 6px;
+}
+
+.coupon-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
+    box-sizing: border-box;
+}
+
+.order-final {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: 500;
+    padding-top: 15px;
+    border-top: 2px solid white;
+}
+
+.order-final .price {
+    color: black;
+}
 
 
 /*MARK: home*/
