@@ -1340,3 +1340,291 @@ footer h3, footer p {
     font-weight: bold;
     text-align: right;
 }
+
+
+
+/*MARK: home*/
+
+/* БАННЕР */
+
+.hero {
+    padding: 30px 0 40px;
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.hero-arrow {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.hero-cards {
+    display: flex;
+    gap: 25px;
+}
+
+.hero-card {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+.hero-card p {
+    text-align: center;
+    font-size: 14px;
+}
+
+.hero-dots {
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.hero-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background-color: #ccc;
+}
+
+.hero-dots .active-dot {
+    background-color: #000;
+}
+
+
+/* ЗАГОЛОВКИ */
+
+.main-title {
+    font-size: 36px;
+    color: white;
+    text-align: center;
+    font-weight: normal;
+    margin-bottom: 35px;
+}
+
+.black-title {
+    color: black;
+}
+
+
+/* О НАС */
+
+.about {
+    background-color: #0084FF;
+    padding: 50px 0 60px;
+}
+
+.about-text {
+    max-width: 700px;
+    margin: 0 auto 50px;
+    text-align: center;
+    color: white;
+    font-size: 26px;
+    line-height: 1.4;
+}
+
+.about-cards {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.about-card {
+    width: 320px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px 25px;
+}
+
+.about-card h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: normal;
+}
+
+.about-card p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+
+/* ТОВАРЫ */
+
+.products-section {
+    padding: 50px 0;
+}
+
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 45px 60px;
+}
+
+.product-card {
+    width: 230px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product-card img {
+    height: 170px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.product-info {
+    width: 100%;
+    background-color: #0084FF;
+    border-radius: 8px;
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    height: 100px;
+}
+
+.product-info h3 {
+    text-align: center;
+    font-size: 18px;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.product-info p {
+    margin-top: auto;
+}
+
+.product-info button {
+    width: 90px;
+    height: 28px;
+    border: none;
+    border-radius: 20px;
+    background-color: white;
+    cursor: pointer;
+    margin-top: auto;
+}
+
+
+/* АКЦИИ */
+
+.sale-section {
+    padding-bottom: 60px;
+}
+
+.sales {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+}
+
+.sale-card {
+    width: 280px;
+    height: 120px;
+    border: 4px solid #ff8c8c;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.sale-card p {
+    font-size: 22px;
+    text-align: center;
+}
+
+
+/* ОТЗЫВЫ */
+
+.reviews-section {
+    background-color: #0084FF;
+    padding: 50px 0 60px;
+}
+
+.reviews {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.review-card {
+    width: 280px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 25px 20px;
+    text-align: center;
+}
+
+.review-card span {
+    color: #0084FF;
+    font-size: 24px;
+}
+
+.review-card h3 {
+    margin: 15px 0;
+    font-size: 22px;
+    font-weight: normal;
+}
+
+.review-card p {
+    font-size: 16px;
+    line-height: 1.4;
+    text-align: left;
+    margin: 25px;
+}
+
+
+/* ФОРМА */
+
+.home-feedback {
+    padding: 60px 0;
+}
+
+.home-feedback-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+.home-feedback-form input {
+    width: 500px;
+    height: 45px;
+    border: 1px solid #000;
+    border-radius: 20px;
+    padding: 0 15px;
+    font-size: 16px;
+    outline: none;
+}
+
+.home-feedback-form button {
+    width: 120px;
+    height: 35px;
+    border: none;
+    border-radius: 20px;
+    background-color: #0084FF;
+    color: white;
+    cursor: pointer;
+}
