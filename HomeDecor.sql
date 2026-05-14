@@ -5,7 +5,7 @@
 -- Хост: 127.0.0.1:3306
 -- Время создания: Май 14 2026 г., 11:48
 -- Версия сервера: 8.0.30
--- Версия PHP: 8.1.9
+-- Версия PHP: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,9 +29,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `category` (
   `id` int NOT NULL,
-  `name` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `image` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `href` varchar(20) COLLATE utf8mb4_general_ci NOT NULL
+  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `image` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `href` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -73,9 +73,9 @@ CREATE TABLE `contact_you` (
 
 CREATE TABLE `feedback` (
   `id` int NOT NULL,
-  `name` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(40) COLLATE utf8mb4_general_ci NOT NULL,
-  `text` text COLLATE utf8mb4_general_ci NOT NULL
+  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -88,8 +88,8 @@ CREATE TABLE `pages` (
   `id` int NOT NULL,
   `slug` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `title` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `content` text COLLATE utf8mb4_general_ci NOT NULL,
-  `header_content` text COLLATE utf8mb4_general_ci NOT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `header_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `in_menu` tinyint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -104,7 +104,7 @@ INSERT INTO `pages` (`id`, `slug`, `title`, `content`, `header_content`, `in_men
 (5, 'catalog', 'Каталог', '<div class=\"category-item\">\r\n    <a href=\"/catalog/{{ href }}\"><img src=\"{{ image }}\" loading=\"lazy\" alt=\"{{ name }}\">{{ name }}</a>\r\n</div>', '<form method=\"POST\" data-no-ajax>\r\n    <div class=\"center\" style=\"-webkit-mask-image: -webkit-radial-gradient(white, black); align-items: center; width: 700px; height: 55px; background: white; border: 2px solid #CFCFCF; border-radius: 25rem; padding: 0 20px; overflow: hidden;\">\r\n        <input type=\"text\" placeholder=\"Поиск по товарам...\" style=\"flex: 1; border: none; outline: none; font-size: 18px; background: transparent; height: 55px;\" name=\"search\">\r\n        <button class=\"hover\" type=\"submit\" style=\"background: none; border: none;\"><img src=\"/img/search.svg\" loading=\"lazy\" alt=\"Поиск\" style=\"width: 30px; cursor: pointer;\"></button>\r\n    </div>\r\n</form>', 1),
 (6, 'header', '', '<nav class=\"center row\">\r\n    {{ menu }}\r\n</nav>\r\n<div class=\"header-content center row space-between\">\r\n    <div class=\"margin-left80\" style=\"width: 211px;\">\r\n        <a class=\"hover center row\" href=\"/index\">\r\n            <h3>ДЕКОР ДЛЯ <br> ДОМА</h3>\r\n            <img src=\"/img/logo.png\" alt=\"Логотип\" style=\"max-width: 50px; margin: 20px;\">\r\n        </a>\r\n    </div>\r\n    \r\n    {{ header_content }}\r\n\r\n    <div class=\"center row margin-right80\" style=\"width: 211px;\">\r\n        <a class=\"{{ basket_class }}\" href=\"/basket\">\r\n            <img class=\"margin15\" src=\"{{ basket_img }}\" alt=\"Корзина\" style=\"max-width: 40px;\">\r\n        </a>\r\n        \r\n        <a class=\"{{ profile_class }}\" href=\"/profile\">\r\n            {{ profile }} \r\n        </a>\r\n    </div>\r\n</div>', '', 0),
 (9, 'admin', 'Админпанель', '<div class=\'center column\'>\r\n    <h1 class=\'margin15\'>Админ-панель</h1>\r\n    <form class=\'center margin15 column\' method=\'POST\'>\r\n        <input class=\'margin5 admin-input\' type=\'login\' name=\'login\' placeholder=\'Логин\' required>\r\n        <input class=\'margin5 admin-input\' type=\'password\' name=\'password\' placeholder=\'Логин\' required>\r\n        <button class=\'margin5 admin-button hover\' type=\'submit\' name=\'action\'>Вход</button>\r\n    </form>\r\n</div>', '<nav class=\"center row\">\r\n    {{ menu }}\r\n</nav>\r\n<div class=\"header-content center \">\r\n        <a class=\"hover center row\" href=\"/admin\">\r\n            <h3>АДМИН ДЛЯ <br> ДОМА</h3>\r\n            <img src=\"/img/logo.png\" loading = \"lazy\" alt=\"Логотип\" style=\"max-width: 50px; margin: 20px;\">\r\n        </a>\r\n</div>', 2),
-(10, 'reviews', 'Отзывы', '<div class=\"container-reviews\">\r\n    <section class=\"top-text\">\r\n        <p>Делитесь впечатлениями и читайте, что думают другие о магазине «Дом Деталей»!</p>\r\n    </section>\r\n\r\n    <!-- Отзывы -->\r\n    <section class=\"review\">\r\n        <div class=\"reviews-card\">\r\n            <img src=\"img/acc1.jpg\" loading=\"lazy\" alt=\"\">\r\n            <div class=\"review-content\">\r\n                <div class=\"review-top\">\r\n                    <span class=\"stars\">★★★★★</span>\r\n                    <span class=\"date\">15 апреля 2026</span>\r\n                </div>\r\n                <h3>Анна С.</h3>\r\n                <p>«Заказывала вазу и свечи — всё пришло целым, упаковано с любовью. Даже бонусный магнитик положили! Теперь только к вам.»</p>\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"reviews-card\">\r\n            <img src=\"img/acc2.jpg\" loading=\"lazy\" alt=\"\">\r\n            <div class=\"review-content\">\r\n                <div class=\"review-top\">\r\n                    <span class=\"stars\">★★★★★</span>\r\n                    <span class=\"date\">9 февраля 2026</span>\r\n                </div>\r\n                <h3>Екатерина К.</h3>\r\n                <p>«Отличный магазин! Быстрая доставка в Ижевск за 4 дня. Плед купила — очень мягкий, как на фото. Спасибо!»</p>\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"reviews-card\">\r\n            <img src=\"img/acc3.jpg\" loading=\"lazy\" alt=\"\">\r\n            <div class=\"review-content\">\r\n                <div class=\"review-top\">\r\n                    <span class=\"stars\">★★★★☆</span>\r\n                    <span class=\"date\">2 мая 2026</span>\r\n                </div>\r\n                <h3>Дмитрий В.</h3>\r\n                <p>«Хороший выбор декора, цены приятные. Единственное — свеча пахла не так ярко, как ожидал. Но в целом довольна.»</p>\r\n            </div>\r\n        </div>\r\n    </section>\r\n\r\n    <section class=\"form-section center column\">\r\n        <h2>Оставить свой отзыв</h2>\r\n        <form class=\"review-form center column\">\r\n            <input type=\"text\" name=\"rev_name\" placeholder=\"Имя\" value=\"{{ login }}\" readonly>\r\n            <select name=\"rev_rating\">\r\n                <option value=\"5\">★★★★★</option>\r\n                <option value=\"4\">★★★★</option>\r\n                <option value=\"3\">★★★</option>\r\n                <option value=\"2\">★★</option>\r\n                <option value=\"1\">★</option>\r\n            </select>\r\n            <textarea name=\"rev_text\" placeholder=\"Ваш отзыв\"></textarea>\r\n            <button type=\"submit\" name=\"send_review\">Отправить</button>\r\n        </form>\r\n    </section>\r\n</div>', '<h2>Отзывы наших покупателей</h2>', 1),
+(10, 'reviews', 'Отзывы', '<div class=\"container-reviews\">\n    <section class=\"top-text\">\n        <p>Делитесь впечатлениями и читайте, что думают другие о магазине «Дом Деталей»!</p>\n    </section>\n\n    <!-- Отзывы -->\n    <section class=\"review\">\n        <div class=\"reviews-card\">\n            <img src=\"img/acc1.jpg\" loading=\"lazy\" alt=\"\">\n            <div class=\"review-content\">\n                <div class=\"review-top\">\n                    <span class=\"stars\">★★★★★</span>\n                    <span class=\"date\">15 апреля 2026</span>\n                </div>\n                <h3>Анна С.</h3>\n                <p>«Заказывала вазу и свечи — всё пришло целым, упаковано с любовью. Даже бонусный магнитик положили! Теперь только к вам.»</p>\n            </div>\n        </div>\n\n        <div class=\"reviews-card\">\n            <img src=\"img/acc2.jpg\" loading=\"lazy\" alt=\"\">\n            <div class=\"review-content\">\n                <div class=\"review-top\">\n                    <span class=\"stars\">★★★★★</span>\n                    <span class=\"date\">9 февраля 2026</span>\n                </div>\n                <h3>Екатерина К.</h3>\n                <p>«Отличный магазин! Быстрая доставка в Ижевск за 4 дня. Плед купила — очень мягкий, как на фото. Спасибо!»</p>\n            </div>\n        </div>\n\n        <div class=\"reviews-card\">\n            <img src=\"img/acc3.jpg\" loading=\"lazy\" alt=\"\">\n            <div class=\"review-content\">\n                <div class=\"review-top\">\n                    <span class=\"stars\">★★★★☆</span>\n                    <span class=\"date\">2 мая 2026</span>\n                </div>\n                <h3>Дмитрий В.</h3>\n                <p>«Хороший выбор декора, цены приятные. Единственное — свеча пахла не так ярко, как ожидал. Но в целом довольна.»</p>\n            </div>\n        </div>\n    </section>\n\n    <section class=\"form-section center column\">\n        <h2>Оставить свой отзыв</h2>\n        <form class=\"review-form center column\">\n            <input type=\"text\" name=\"rev_name\" placeholder=\"Имя\" value=\"{{ login }}\" readonly>\n            <select name=\"rev_rating\">\n                <option value=\"5\">★★★★★</option>\n                <option value=\"4\">★★★★</option>\n                <option value=\"3\">★★★</option>\n                <option value=\"2\">★★</option>\n                <option value=\"1\">★</option>\n            </select>\n            <textarea name=\"rev_text\" placeholder=\"Ваш отзыв\" required></textarea>\n            <button type=\"submit\" name=\"send_review\">Отправить</button>\n        </form>\n    </section>\n</div>', '<h2>Отзывы наших покупателей</h2>', 1),
 (11, 'сontacts', 'Контакты', '<section class=\"contact-info\">\r\n\r\n<div class=\"contact-text\">\r\n    <p>\r\n        Наполните дом уютом в любое удобное время — наш сайт открыт для заказов 24/7.\r\n        Если вам нужна помощь в выборе декора или возникли вопросы по заказу,\r\n        мы всегда связи! Позвоните на горячую линию или напишите на электронную почту.\r\n        Также вы можете оставить заявку через форму обратной связи, и наш менеджер\r\n        перезвонит вам в ближайшее время.\r\n    </p>\r\n</div>\r\n\r\n<div class=\"contact-items\">\r\n\r\n    <div class=\"contact-item\">\r\n        <p>hello@dom-detali.ru</p>\r\n    </div>\r\n\r\n    <div class=\"contact-item\">\r\n        <p>+7 947 485 98 87</p>\r\n    </div>\r\n\r\n    <div class=\"contact-item\">\r\n        <p>+7 947 485 98 87</p>\r\n    </div>\r\n\r\n</div>\r\n\r\n</section>\r\n\r\n\r\n<section class=\"feedback\">\r\n\r\n<h2 class=\"feedback-title\">Обратная связь</h2>\r\n\r\n<form class=\"feedback-form\">\r\n    <input name=\"rev_name1\" type=\"text\" placeholder=\"Ваше имя\">\r\n    <input name=\"rev_email\" type=\"email\" placeholder=\"Ваш email\">\r\n    <textarea name=\"rev_text1\" placeholder=\"Ваше сообщение\"></textarea>\r\n    <button type=\"submit\" name=\"send_feedback\">Отправить</button>\r\n</form>\r\n\r\n</section>\r\n\r\n\r\n<section class=\"location\">\r\n\r\n<div class=\"location-content\">\r\n\r\n    <div class=\"location-text\">\r\n        <h2>Где нас найти:</h2>\r\n\r\n        <p>ул. Пушкинская, 270</p>\r\n        <p>ул. Холмогорова, 11</p>\r\n        <p>ул. Баранова, 55</p>\r\n    </div>\r\n\r\n    <div class=\"location-map\">\r\n        <iframe src=\"https://yandex.ru/map-widget/v1/?um=constructor%3A484fa3e7973acd9e3382ddfbfacd8592c0ea7df9aab1e1cd44dc8a9c4f8bce83&amp;source=constructor\" frameborder=\"0\"></iframe>\r\n    </div>\r\n\r\n</div>\r\n\r\n</section>', '<h2>Свяжитесь с нами!</h2>', 1),
 (12, 'stock', 'Акции', '<div class=\"content-container\">\r\n\r\n    <section class=\"section\">\r\n        <h2 class=\"section-title\">Скидки</h2>\r\n\r\n        <div class=\"cards\">\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/pillow.png\" alt=\"Уют в деталях\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Уют в деталях</h3>\r\n                    <p>-30% на все декоративные подушки и мягкие пледы.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/lamp.png\" alt=\"Магия света\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Магия света</h3>\r\n                    <p>Скидки до 40% на дизайнерские светильники и гирлянды.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/kitchen.png\" alt=\"Эстетика завтраков\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Эстетика завтраков</h3>\r\n                    <p>Кухонная керамика и сервировочные доски со скидкой 25%</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/aroma.png\" alt=\"Ароматный дом\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Ароматный дом</h3>\r\n                    <p>-20% на диффузоры, соевые свечи и благовония.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/storage.png\" alt=\"Порядок со вкусом\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Порядок со вкусом</h3>\r\n                    <p>Скидка на стильные корзины и системы хранения.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/sale.png\" alt=\"Финальный сейл\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Финальный сейл</h3>\r\n                    <p>До -50% на товары из коллекции прошлого сезона.</p>\r\n                </div>\r\n            </div>\r\n\r\n        </div>\r\n    </section>\r\n\r\n    <section class=\"section\">\r\n        <h2 class=\"section-title\">Специальные предложения</h2>\r\n\r\n        <div class=\"cards\">\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/bath.png\" alt=\"Сет для ванной\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Сет для ванной</h3>\r\n                    <p>При покупке дозатора и мыльницы — стакан для щеток в подарок.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/welcome.png\" alt=\"Добро пожаловать\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Добро пожаловать</h3>\r\n                    <p>Скидка 10% на ваш первый заказ при подписке на новости.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/posters.png\" alt=\"Готовое решение\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Готовое решение</h3>\r\n                    <p>Соберите сет из 3-х постеров и получите рамки бесплатно.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/delivery.png\" alt=\"Бесплатная доставка\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Бесплатная доставка</h3>\r\n                    <p>Привезем ваш декор бережно и бесплатно при заказе от 5 000 руб.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/gift.png\" alt=\"Дарите красиво\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Дарите красиво</h3>\r\n                    <p>При покупке любого декора — праздничная упаковка в подарок.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/club.png\" alt=\"Закрытый клуб\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Закрытый клуб</h3>\r\n                    <p>Специальные цены только для участников программы лояльности.</p>\r\n                </div>\r\n            </div>\r\n\r\n        </div>\r\n    </section>\r\n</div>', '<h2>Найди своё</h2>', 1),
 (13, 'basket', 'Корзина', '<div class=\"cart-container\">\r\n    <h1 class=\"cart-title\">Моя корзина</h1>\r\n\r\n    <div class=\"cart-top\">\r\n        <div class=\"coupon\">\r\n            <label for=\"coupon-input\">Введите код купона для скидки:</label>\r\n            <form id=\"promoForm\" class=\"coupon-input-wrap\">\r\n                <input type=\"text\" name=\"promo_code\">\r\n                <button type=\"submit\" name=\"apply_promo\" class=\"coupon-btn\">›</button>\r\n            </form>\r\n        </div>\r\n        <div class=\"total\">\r\n            <p class=\"total-label\">Итого:</p>\r\n            <p id=\"sum\" class=\"total-sum\">810 руб.</p>\r\n        </div>\r\n        <button class=\"arrange\">Оформить заказ</button>\r\n    </div>\r\n\r\n    <div class=\"cart-bottom\">\r\n\r\n        <div class=\"cart-bottom-header\">\r\n            <div class=\"filter\">\r\n                <input type=\"text\" placeholder=\"Фильтр\">\r\n                <button class=\"filter-clear\">×</button>\r\n            </div>\r\n            <p class=\"items-count\">В корзине 1 товар</p>\r\n        </div>\r\n\r\n        <!-- товар -->\r\n        {{ product }}\r\n    </div>\r\n</div>', '<h2>В корзине {{ value }}</h2>', 0),
@@ -136,12 +136,12 @@ CREATE TABLE `products` (
   `image` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `description` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `more_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `material` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `color` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `height` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
-  `length` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
-  `width` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
-  `weight` varchar(5) COLLATE utf8mb4_general_ci NOT NULL
+  `material` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `color` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `height` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `length` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `width` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `weight` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -167,9 +167,9 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `price`, `image`, `descript
 
 CREATE TABLE `reviews` (
   `id` int NOT NULL,
-  `name` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `rating` varchar(1) COLLATE utf8mb4_general_ci NOT NULL,
-  `text` text COLLATE utf8mb4_general_ci NOT NULL
+  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `rating` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -187,8 +187,8 @@ INSERT INTO `reviews` (`id`, `name`, `rating`, `text`) VALUES
 
 CREATE TABLE `settings` (
   `id` int NOT NULL,
-  `key_name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `value` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
+  `key_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -199,10 +199,10 @@ CREATE TABLE `settings` (
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
-  `login` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `password` text COLLATE utf8mb4_general_ci NOT NULL,
-  `role` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `login` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `role` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date_regist` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
