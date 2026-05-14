@@ -50,26 +50,19 @@
         </div>
     </div>
 </section>
-<div class="cart-item">
-    <div class="item-image">
-        <img src="{{ img }}" loading="lazy" alt="Ваза">
-    </div>
 
-    <div class="item-info">
-        <h3 class="item-name">{{ name }}</h3>
-        <p class="item-number">Номер товара:<br>{{ id }}</p>
+<div class="vase-card">
+    <a href="{{ product_url }}">
+        <img src="{{ image }}" loading="lazy" alt="Ваза">
+        <div class="center column">
+            <p class="vase-name">{{ name }}</p>
+            <p class="vase-prise">{{ price }}</p>
+        </div>
+    </a>
+    <div class="center column">
+        <form method="POST">
+            <input name="id" type="hidden" value="{{ id }}"></input>
+            <button name="addItem" type="submit">Добавить</button>
+        </form>
     </div>
-
-    <div class="item-price">
-        <p class="price-one">{{ price }} руб.</p>
-        <p class="price-label">цена за 1 шт.</p>
-    </div>
-
-    <div class="item-quantity">
-        <button class="btn-quantity">−</button>
-        <input type="text" value="1" class="quantity-input">
-        <button class="btn-quantity">+</button>
-    </div>
-
-    <div class="item-total">{{ price }} руб.</div>
 </div>

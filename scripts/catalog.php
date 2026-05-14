@@ -3,6 +3,41 @@
     $header_content = $page['header_content'];
     $content = "";
 
+    if (!isset($_SESSION['basket'])) {
+        $_SESSION['basket'] = [];
+    }
+
+    $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
+    if (isset($_POST['id']) && $isAjax) {
+        header('Content-Type: application/json');
+        
+        $id = intval($_POST['id'] ?? 0);
+
+        if ($id > 0) {
+            if (isset($_SESSION['basket'][$id])) {
+                $_SESSION['basket'][$id]++;
+            } else {
+                $_SESSION['basket'][$id] = 1;
+            }
+
+            $total_items = array_sum($_SESSION['basket']);
+
+            echo json_encode([
+                'status' => 'Добавлено', // Лучше передавать статус строкой для JS-проверок
+                'color' => 'white',
+                'message' => 'Товар добавлен в корзину',
+                'count' => $total_items
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Некорректный ID товара'
+            ]);
+        }
+        exit; // Критически важно остановить скрипт здесь
+    }
+
     function card($pdo, $products) {  // Функция для формирования карточки товара
         $product_page = getPageBySlug($pdo, 'card_product');
         $card_template = $product_page['content'];
@@ -11,13 +46,14 @@
         foreach ($products as $row) {
             $product_url = "./vases/detailed_card_product?id=" . $row['id'];
             $card_content = str_replace(
-                ['{{ name }}', '{{ image }}', '{{ price }}', '{{ description }}', '{{ product_url }}'],
+                ['{{ name }}', '{{ image }}', '{{ price }}', '{{ description }}', '{{ product_url }}', '{{ id }}'],
                 [
                     htmlspecialchars($row['name']), 
                     htmlspecialchars('/' . $row['image']), 
                     htmlspecialchars($row['price']), 
                     htmlspecialchars($row['description']),
-                    htmlspecialchars($product_url)
+                    htmlspecialchars($product_url),
+                    htmlspecialchars($row['id'])
                 ],
                 $card_template
             );

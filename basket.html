@@ -11,7 +11,7 @@
         </div>
         <div class="total">
             <p class="total-label">Итого:</p>
-            <p id="sum" class="total-sum">810 руб.</p>
+            <p id="sum" class="total-sum">{{ final_price }} руб.</p>
         </div>
         <button class="arrange">Оформить заказ</button>
     </div>
@@ -23,33 +23,34 @@
                 <input type="text" placeholder="Фильтр">
                 <button class="filter-clear">×</button>
             </div>
-            <p class="items-count">В корзине 1 товар</p>
+            <p class="items-count">В корзине {{ value }}</p>
         </div>
 
         <!-- товар -->
         {{ product }}
-        <div class="cart-item">
-            <div class="item-image">
-                <img src="img/vase1.jpg" loading="lazy" alt="Ваза">
-            </div>
-
-            <div class="item-info">
-                <h3 class="item-name">Ваза из прозрачного стекла 15 см</h3>
-                <p class="item-number">Номер товара:<br>10187</p>
-            </div>
-
-            <div class="item-price">
-                <p class="price-one">810 руб.</p>
-                <p class="price-label">цена за 1 шт.</p>
-            </div>
-
-            <div class="item-quantity">
-                <button class="btn-quantity">−</button>
-                <input type="text" value="1" class="quantity-input">
-                <button class="btn-quantity">+</button>
-            </div>
-
-            <div class="item-total">810 руб.</div>
-        </div>
     </div>
+</div>
+
+<div class="cart-item">
+    <div class="item-image">
+        <img src="{{ img }}" loading="lazy" alt="Ваза">
+    </div>
+
+    <div class="item-info">
+        <h3 class="item-name">{{ name }}</h3>
+        <p class="item-number">Номер товара:<br>{{ id }}</p>
+    </div>
+
+    <div class="item-price">
+        <p class="price-one">{{ price }} руб.</p>
+        <p class="price-label">цена за 1 шт.</p>
+    </div>
+
+    <div class="item-quantity">
+        <button class="btn-quantity minus">−</button>
+        <input type="text" value="{{ quantity }}" class="quantity-input" readonly>
+        <button class="btn-quantity plus">+</button>
+    </div>
+
+    <div class="item-total">{{ end_price }} руб.</div>
 </div>

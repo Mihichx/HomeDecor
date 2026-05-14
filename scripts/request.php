@@ -131,6 +131,13 @@
         ]);
     }
 
+    // Получение одного товара по его точному ID
+    function getProductById($pdo, $id) {
+        $stmt = $pdo->prepare("SELECT * FROM products WHERE id = :id");
+        $stmt->execute([':id' => (int)$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Возвращает сразу один массив товара или false
+    }
+
     // function product($pdo, $name) {
     //     $stmt = $pdo->prepare("SELECT * FROM products WHERE name = :name");
     //     $stmt->execute([':name' => $name]);

@@ -6,6 +6,7 @@
 		<link rel="icon" href="/img/logo.png" type="image/x-icon">
         <link rel="stylesheet" href="/css/main.css">
 		<script src="/js/interceptor.js"></script>
+		<script src="/js/basket.js"></script>
 	</head>
 	<body>
 		<header class="center column">
