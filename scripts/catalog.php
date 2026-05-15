@@ -19,7 +19,7 @@
         $products_html = "";
         foreach ($products as $row) {
             $category = category($pdo, $row);
-            $product_url = $category['href'] ."/detailed_card_product?id=" . $row['id'];
+            $product_url = "/catalog/" . $category['href'] ."/detailed_card_product?id=" . $row['id'];
             $card_content = str_replace(
                 ['{{ name }}', '{{ image }}', '{{ price }}', '{{ description }}', '{{ product_url }}', '{{ id }}'],
                 [

@@ -15,9 +15,9 @@
     $row = getPageBySlug($pdo, 'header');
     $header = $row['content'] ?? '';
 
+    
     // Определяем основной раздел (проверка на пустой params[0])
     $current_section = $params[0] ?? '';
-
     if ($current_section == '') {
         $slug = 'index';
         include './scripts/page.php';
@@ -34,9 +34,9 @@
         include './scripts/page.php';
     }
 
+
     $param1 = $params[1] ?? null;
     $param2 = $params[2] ?? null;
-
     if ($param1 == "goods") {
         $stmt = $pdo->query("SELECT slug, title FROM pages WHERE in_menu = 3");
     } elseif ($current_section == "admin") {
@@ -45,6 +45,7 @@
         $stmt = $pdo->query("SELECT slug, title FROM pages WHERE in_menu = 1");
     }
 
+    // Шапка
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $menu_html = '<ul class="center row">';
     foreach ($rows as $row) {
@@ -70,6 +71,7 @@
     }
     $menu_html .= '</ul>';
 
+
     // Футер
     if ($current_section != "admin") {
         $footer = getPageBySlug($pdo, 'footer');
@@ -77,11 +79,11 @@
         $footer_content = str_replace('{{ year }}', date("Y"), $footer_content);
     }
 
+
     // Иконки и профиль
     $is_basket = ($current_section == 'basket');
     $basket_class = $is_basket ? 'hover center active-icon' : 'hover center';
     $basket_img = $is_basket ? '/img/basket-b.png' : '/img/basket.png';
-
     if (isset($_SESSION['user']['id'])) {
         $profile_class = 'hover center active-profile';
         $profile = htmlspecialchars($_SESSION['user']['login']);
@@ -91,6 +93,7 @@
         $profile_img = $is_profile ? '/img/profile-b.png' : '/img/profile.png';
         $profile = '<img class="margin15" src="'.$profile_img.'" alt="Профиль" style="max-width: 40px;">';
     }
+
 
     // Финальная сборка
     $replacements = [
@@ -102,11 +105,9 @@
         '{{ menu }}'           => $menu_html
     ];
     $header = str_replace(array_keys($replacements), array_values($replacements), $header);
-
     $layout = str_replace('{{ title }}', $title, $layout);
     $layout = str_replace('{{ header }}', $header, $layout);
     $layout = str_replace('{{ content }}', $content, $layout);
     $layout = str_replace('{{ footer }}', $footer_content ?? '', $layout);
-
     echo $layout;
 ?>
