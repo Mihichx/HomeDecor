@@ -94,6 +94,14 @@
         ];
     }
 
+    // Получение категории
+    function category($pdo, $product) {
+        $category_id = $product['category_id'];
+        $stmt = $pdo->prepare("SELECT id, href FROM category WHERE id = :id");
+        $stmt->execute([':id' => $category_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     // Поиск всех элементов по данным: таблица, столбец, что
     function searchALL($pdo, $table, $column, $value) {
         $stmt = $pdo->prepare("SELECT * FROM $table WHERE $column LIKE :value");
