@@ -54,36 +54,36 @@
     } 
 
     // Добавление в корзину
-    if (!isset($_SESSION['basket'])) {
-        $_SESSION['basket'] = [];
-    }
     $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
     if (isset($_POST['id']) && $isAjax) {
         header('Content-Type: application/json');
-        
-        $id = intval($_POST['id'] ?? 0);
+        if (isset($_SESSION['user']['basket'])) {
+            $id = intval($_POST['id'] ?? 0);
 
-        if ($id > 0) {
-            if (isset($_SESSION['basket'][$id])) {
-                $_SESSION['basket'][$id]++;
+            if ($id > 0) {
+                if (isset($_SESSION['user']['basket'][$id])) {
+                    $_SESSION['user']['basket'][$id]++;
+                } else {
+                    $_SESSION['user']['basket'][$id] = 1;
+                }
+
+                $total_items = array_sum($_SESSION['user']['basket']);
+
+                echo json_encode([
+                    'status' => 'Добавлено',
+                    'color' => 'white'
+                ]);
             } else {
-                $_SESSION['basket'][$id] = 1;
+                echo json_encode([
+                    'status' => 'error'
+                ]);
             }
-
-            $total_items = array_sum($_SESSION['basket']);
-
-            echo json_encode([
-                'status' => 'Добавлено',
-                'color' => 'white',
-                'message' => 'Товар добавлен в корзину',
-                'count' => $total_items
-            ]);
+            exit;
         } else {
             echo json_encode([
-                'status' => 'error',
-                'message' => 'Некорректный ID товара'
+                'status' => 'Авторизуйтесь'
             ]);
+            exit;
         }
-        exit;
     }
 ?>

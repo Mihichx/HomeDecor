@@ -21,7 +21,8 @@
                     'id'    => $user['id'],
                     'role'  => $user['role'],
                     'login' => $user['login'],
-                    'email' => $user['email']
+                    'email' => $user['email'],
+                    'basket'=> []
                 ];
                 $color_status = "green"; 
                 $status = "Успешный вход!";
