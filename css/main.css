@@ -2118,7 +2118,7 @@ footer h3, footer p {
     }
     
     /* О нас */
-    .about, .mission, .advantages, .contacts {
+    .about_a, .mission, .advantages, .contacts {
         padding: 30px 20px;
     }
     
