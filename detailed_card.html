@@ -20,28 +20,13 @@
                     <li><span>вес нетто, кг</span><span>{{ weight }}</span></li>
                 </ul>
             </div>
+        </div>
 
-            <!-- Блок цены и действий -->
-            <div class="buy-block margin15">
-                <div class="price-container">
-                    <span id="base-price" data-price="1180">{{ price }}</span> руб.
-                </div>
-                
-                <div class="quantity-controls">
-                    <p>количество</p>
-                    <div class="counter">
-                        <button type="button" class="minus">—</button>
-                        <input type="number" id="count" value="1" readonly>
-                        <button type="button" class="plus">+</button>
-                    </div>
-                    <p class="total-hint">шт на сумму <span id="total-sum">{{ price }}</span> руб.</p>
-                </div>
-
-                <div class="buy-buttons">
-                    <button class="btn-buy">Купить</button>
-                    <button class="btn-add">Добавить</button>
-                </div>
-            </div>
+        <div class="center column add-button hover">
+            <form method="POST">
+                <input name="id" type="hidden" value="{{ id }}"></input>
+                <button name="addItem" type="submit">Добавить</button>
+            </form>
         </div>
 
         <div class="product-description">
@@ -59,7 +44,7 @@
             <p class="vase-prise">{{ price }}</p>
         </div>
     </a>
-    <div class="center column">
+    <div class="center column add-button hover">
         <form method="POST">
             <input name="id" type="hidden" value="{{ id }}"></input>
             <button name="addItem" type="submit">Добавить</button>

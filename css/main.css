@@ -22,6 +22,7 @@
 
 .active-profile {
     text-decoration: underline;
+    padding: 10px;
 }
 
 .center {
@@ -443,6 +444,17 @@ footer h3, footer p {
     color: #005db9;
 }
 
+.add-button button {
+    background-color: white;
+    border: 1px solid rgb(196, 196, 196);
+    border-radius: 20px;
+    padding: 5px 10px;
+}
+
+.product-description {
+    margin: 10px
+}
+
 /* MARK: Вазы */
 .container-vases {
     max-width: 1594px;
@@ -852,7 +864,7 @@ footer h3, footer p {
     justify-content: center;
 }
 .logout-button {
-    margin-top: auto;
+    margin: 10px;
 }
 
 .profile-button:hover,
@@ -861,7 +873,7 @@ footer h3, footer p {
 }
 
 .profile-button {
-    margin-bottom: 180px;
+    margin-bottom: 10px;
 }
 
 
@@ -941,7 +953,6 @@ footer h3, footer p {
 /*MARK: settings*/
 
 .profile-edit {
-    min-height: 795px;
     display: flex;
     justify-content: center;
     padding-top: 40px;
@@ -1146,6 +1157,7 @@ footer h3, footer p {
 }
 
 .cart-top {
+    width: 600px;
     background-color: #0084FF;
     padding: 20px 30px;
     display: flex;
@@ -1249,10 +1261,6 @@ footer h3, footer p {
     color: #939393;
     font-size: 18px;
     cursor: pointer;
-}
-
-.items-count {
-    font-size: 14px;
 }
 
 .cart-item {
@@ -1507,10 +1515,13 @@ footer h3, footer p {
     width: 100%;
 }
 
+.payment-card.active {
+    background-color: #007bff;
+    color: white;
+}
+
 .payment-card:hover {
-    background-color: #e6f4ff;
-    border-color: #007bff;
-    transform: translateY(-2px);
+    transform: translateY(-5px);
 }
 
 /* Чекбоксы */

@@ -1,7 +1,7 @@
 <?  
     // Логика выхода
     if (isset($_POST['logout'])) {
-        unset($_SESSION['user']);
+        session_unset();
         $redirect_url = "/index"; 
         $color_status = "green";
         

@@ -13,16 +13,12 @@
             <p class="total-label">Итого:</p>
             <p id="sum" class="total-sum">{{ final_price }} руб.</p>
         </div>
-        <button class="arrange">Оформить заказ</button>
+        <a href="/order" class="arrange">Оформить заказ</a>
     </div>
 
     <div class="cart-bottom">
 
         <div class="cart-bottom-header">
-            <div class="filter">
-                <input type="text" placeholder="Фильтр">
-                <button class="filter-clear">×</button>
-            </div>
             <p class="items-count">В корзине {{ value }}</p>
         </div>
 
@@ -42,7 +38,7 @@
     </div>
 
     <div class="item-price">
-        <p class="price-one">{{ price }} руб.</p>
+        <span class="price-one" data-price="{{ price_clean }}">{{ price }}</span> руб.
         <p class="price-label">цена за 1 шт.</p>
     </div>
 

@@ -29,6 +29,8 @@
         include './scripts/profile.php';
     } elseif ($current_section == 'basket') {
         include './scripts/basket.php';
+    } elseif ($current_section == 'order') {
+        include './scripts/order.php';
     } else {
         $slug = $current_section;
         include './scripts/page.php';

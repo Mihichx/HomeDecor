@@ -25,7 +25,7 @@
                 [
                     htmlspecialchars($row['name']), 
                     htmlspecialchars('/' . $row['image']), 
-                    htmlspecialchars($row['price']), 
+                    htmlspecialchars(number_format($row['price'], 0, '', ' ')), 
                     htmlspecialchars($row['description']),
                     htmlspecialchars($product_url),
                     htmlspecialchars($row['id'])
@@ -71,7 +71,7 @@
 
                 echo json_encode([
                     'status' => 'Добавлено',
-                    'color' => 'white'
+                    'color' => 'black'
                 ]);
             } else {
                 echo json_encode([

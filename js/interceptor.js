@@ -5,12 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         e.preventDefault();
 
-        // 1. Автоматическое создание/поиск контейнера статуса
+        // Автоматическое создание/поиск контейнера статуса
         let statusBox = form.querySelector('.form-status');
         if (!statusBox) {
             statusBox = document.createElement('div');
             statusBox.className = 'form-status';
-            // Вставляем в начало формы
             form.prepend(statusBox);
         }
 
@@ -31,17 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
 
+            // Если промокод успешный и вернул множитель скидки
             if (result.data && result.data.discount_multiplier) {
-                const sumElm = document.getElementById('sum');
-                const finalSumElm = document.getElementById('sum');
-                
-                if (sumElm && finalSumElm) {
-                    // Берем число из "Сумма", убирая лишнее
-                    let currentSum = +sumElm.innerHTML.replace(/[^0-9]/g, '');
-                    // Считаем итог
-                    let newTotal = Math.round(currentSum * result.data.discount_multiplier);
-                    finalSumElm.innerHTML = newTotal.toLocaleString('ru-RU');
-                }
+                location.reload();
+                return; 
             }
 
             // Если сервер прислал инструкцию к редиректу
@@ -50,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Вывод результата
+            // Вывод сообщения (если это была ошибка ввода промокода или другая форма)
             statusBox.innerHTML = `<p style="color: ${result.color || 'red'};">${result.status}</p>`;
 
             if (result.color === 'green') {

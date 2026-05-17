@@ -1,51 +1,53 @@
 <section class="profile">
-    <div class="profile-sidebar">
-        <img src="./img/profile-b.png" alt="Профиль">
-        <p class="profile-email">{{ email }}</p>
-        <a href="/profile/settings" class="profile-button">Редактировать профиль</a>
-        <form method="POST">
-            <input type="hidden" name="logout" value="1">
-            <button class="logout-button" type="submit">Выйти</button>
-        </form>
-    </div>
+    <div class="center row">
+        <div class="profile-sidebar">
+            <p class="profile-email">{{ email }}</p>
+            <a href="/profile/settings" class="profile-button">Редактировать профиль</a>
+            <form method="POST">
+                <input type="hidden" name="logout" value="1">
+                <button class="logout-button" type="submit">Выйти</button>
+            </form>
+            <button onclick="history.back();" class="logout-button">Назад</button>
+        </div>
 
-    <div class="profile-content">
-        <h1>{{ login }}</h1>
-        <div class="orders">
-            <h2>История заказов</h2>
-            <div class="order-card">
-                <div class="order-info">
-                    <h3>Заказ №10214</h3>
-                    <p>12 марта 2025</p>
+        <div class="profile-content">
+            <h1>{{ login }}</h1>
+            <div class="orders">
+                <h2>История заказов</h2>
+                <div class="order-card">
+                    <div class="order-info">
+                        <h3>Заказ №10214</h3>
+                        <p>12 марта 2025</p>
+                    </div>
+
+                    <span class="status delivered">
+                        Доставлено
+                    </span>
                 </div>
 
-                <span class="status delivered">
-                    Доставлено
-                </span>
-            </div>
+                <div class="order-card">
+                    <div class="order-info">
+                        <h3>Заказ №10187</h3>
+                        <p>5 марта 2025</p>
+                    </div>
 
-            <div class="order-card">
-                <div class="order-info">
-                    <h3>Заказ №10187</h3>
-                    <p>5 марта 2025</p>
+                    <span class="status process">
+                        В пути
+                    </span>
                 </div>
 
-                <span class="status process">
-                    В пути
-                </span>
-            </div>
+                <div class="order-card">
+                    <div class="order-info">
+                        <h3>Заказ №10102</h3>
+                        <p>20 февраля 2025</p>
+                    </div>
 
-            <div class="order-card">
-                <div class="order-info">
-                    <h3>Заказ №10102</h3>
-                    <p>20 февраля 2025</p>
+                    <span class="status cancel">
+                        Отменён
+                    </span>
                 </div>
 
-                <span class="status cancel">
-                    Отменён
-                </span>
             </div>
-
         </div>
     </div>
 </section>
