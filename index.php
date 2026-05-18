@@ -39,9 +39,7 @@
 
     $param1 = $params[1] ?? null;
     $param2 = $params[2] ?? null;
-    if ($param1 == "goods") {
-        $stmt = $pdo->query("SELECT slug, title FROM pages WHERE in_menu = 3");
-    } elseif ($current_section == "admin") {
+    if ($current_section == "admin") {
         $stmt = $pdo->query("SELECT slug, title FROM pages WHERE in_menu = 2 AND slug != 'admin'");
     } else {
         $stmt = $pdo->query("SELECT slug, title FROM pages WHERE in_menu = 1");
@@ -54,10 +52,8 @@
         $row_slug = $row['slug'];
         $path = htmlspecialchars($row_slug);
 
-        if ($current_section == 'admin' && $param1 != 'goods') {
+        if ($current_section == 'admin') {
             $path = '/admin/' . $path;
-        } elseif ($param1 == 'goods') {
-            $path = '/admin/goods/' . $path;
         }
 
         // БЕЗОПАСНАЯ проверка активной ссылки

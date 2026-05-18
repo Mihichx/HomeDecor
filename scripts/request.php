@@ -111,7 +111,7 @@
 
     // Добавление отзыва 
     function addReview($pdo, $name, $rating, $text) {
-        $stmt = $pdo->prepare("INSERT INTO reviews (name, rating, text) VALUES (:name, :rating, :text)");
+        $stmt = $pdo->prepare("INSERT INTO reviews (name, rating, text, status) VALUES (:name, :rating, :text, 0)");
         return $stmt->execute([
             ':name'   => htmlspecialchars($name),
             ':rating' => (int)$rating,

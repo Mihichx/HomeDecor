@@ -113,7 +113,8 @@ nav {
 .admin-button {
     width: 80px;
     height: 30px;
-
+    text-align: center;
+    padding: 10px;
     border: 2px solid #000000;
     border-radius: 86px;
 }
@@ -2760,3 +2761,9 @@ footer h3, footer p {
         font-size: 16px;
     }
 }
+
+.admin-table { width: 100%; border-collapse: collapse; margin-top: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.admin-table th, .admin-table td { padding: 8px 12px; border: 1px solid #d3d3d3; text-align: left; font-size: 14px; }
+.admin-table th { background: #e8e8e8; color: #444; font-weight: bold; }
+.admin-table tr:nth-child(even) { background: #fdfdfd; }
+.admin-table tr:hover { background: #f0f4f8; }
