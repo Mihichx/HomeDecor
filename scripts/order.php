@@ -54,11 +54,45 @@
             $final_price = round($final_price * 1.05);
         }
 
+        // история заказов
+        $order_products = [];
+
+        foreach ($basket as $product_id => $quantity) {
+            $product = getProductById($pdo, (int)$product_id); // ищет товар в базе данных по его ID
+
+            if (!$product) {
+                continue;
+            }
+
+            $price = (float)$product['price'];
+            $quantity = (int)$quantity;
+
+            // добавляет один товар в массив $order_products
+            $order_products[] = [
+                'id' => (int)$product_id,
+                'name' => $product['name'],
+                'image' => $product['image'] ?? '',
+                'price' => $price,
+                'quantity' => $quantity,
+                'sum' => $price * $quantity
+            ];
+        }
+
+        if (empty($order_products)) {
+            echo json_encode([
+                'status' => 'Ваша корзина пуста',
+                'color' => 'red'
+            ]);
+            exit;
+        }
+
+        $products_json = json_encode($order_products, JSON_UNESCAPED_UNICODE);
+
         // Вставляем запись в таблицу заказов
-        $stmt = $pdo->prepare("INSERT INTO orders (user_id, city, phone, address, postal_code, notes, payment_method, total_price, products_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
-        
+        $stmt = $pdo->prepare("INSERT INTO orders (user_id, city, phone, address, postal_code, notes, payment_method, total_price, products_json, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+
         $order_saved = $stmt->execute([
-            $user_id, $city, $phone, $address, $postal_code, $notes, $payment, $final_price, json_encode($basket)
+            $user_id, $city, $phone, $address, $postal_code, $notes, $payment, $final_price, $products_json, 'process'
         ]);
 
         if ($order_saved) {
@@ -67,7 +101,7 @@
             unset($_SESSION['discount_multiplier']);
             unset($_SESSION['user']['final_price']);
 
-            echo json_encode(['redirect' => '/index']);
+           echo json_encode(['redirect' => '/profile']);
             exit;
         } else {
             echo json_encode(['status' => 'Ошибка базы данных. Попробуйте позже.', 'color' => 'red']);

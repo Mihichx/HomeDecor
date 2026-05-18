@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 17 2026 г., 18:13
+-- Время создания: Май 18 2026 г., 13:28
 -- Версия сервера: 8.0.30
--- Версия PHP: 8.1.9
+-- Версия PHP: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -87,16 +87,25 @@ CREATE TABLE `feedback` (
 CREATE TABLE `orders` (
   `id` int NOT NULL,
   `user_id` int NOT NULL,
-  `city` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `postal_code` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `notes` text COLLATE utf8mb4_unicode_ci,
-  `payment_method` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `postal_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `payment_method` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `total_price` int NOT NULL,
-  `products_json` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL
+  `products_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `status` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'process'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `city`, `phone`, `address`, `postal_code`, `notes`, `payment_method`, `total_price`, `products_json`, `created_at`, `status`) VALUES
+(8, 16, 'Ижевск', '1212', 'Кирпичная 32', '55', '', 'sberbank', 3170, '{\"1\":1,\"2\":2}', '2026-05-18 11:47:44', 'process'),
+(9, 16, 'иж', '23', '23', '23', '', 'card', 790, '[{\"id\":10,\"name\":\"Свеча «Лавандовый вечер»\",\"image\":\"img\\/candle1.jpg\",\"price\":790,\"quantity\":1,\"sum\":790}]', '2026-05-18 12:09:47', 'process');
 
 -- --------------------------------------------------------
 
@@ -128,7 +137,7 @@ INSERT INTO `pages` (`id`, `slug`, `title`, `content`, `header_content`, `in_men
 (11, 'сontacts', 'Контакты', '<section class=\"contact-info\">\r\n\r\n<div class=\"contact-text\">\r\n    <p>\r\n        Наполните дом уютом в любое удобное время — наш сайт открыт для заказов 24/7.\r\n        Если вам нужна помощь в выборе декора или возникли вопросы по заказу,\r\n        мы всегда связи! Позвоните на горячую линию или напишите на электронную почту.\r\n        Также вы можете оставить заявку через форму обратной связи, и наш менеджер\r\n        перезвонит вам в ближайшее время.\r\n    </p>\r\n</div>\r\n\r\n<div class=\"contact-items\">\r\n\r\n    <div class=\"contact-item\">\r\n        <p>hello@dom-detali.ru</p>\r\n    </div>\r\n\r\n    <div class=\"contact-item\">\r\n        <p>+7 947 485 98 87</p>\r\n    </div>\r\n\r\n    <div class=\"contact-item\">\r\n        <p>+7 947 485 98 87</p>\r\n    </div>\r\n\r\n</div>\r\n\r\n</section>\r\n\r\n\r\n<section class=\"feedback\">\r\n\r\n<h2 class=\"feedback-title\">Обратная связь</h2>\r\n\r\n<form class=\"feedback-form\">\r\n    <input name=\"rev_name1\" type=\"text\" placeholder=\"Ваше имя\">\r\n    <input name=\"rev_email\" type=\"email\" placeholder=\"Ваш email\">\r\n    <textarea name=\"rev_text1\" placeholder=\"Ваше сообщение\"></textarea>\r\n    <button type=\"submit\" name=\"send_feedback\">Отправить</button>\r\n</form>\r\n\r\n</section>\r\n\r\n\r\n<section class=\"location\">\r\n\r\n<div class=\"location-content\">\r\n\r\n    <div class=\"location-text\">\r\n        <h2>Где нас найти:</h2>\r\n\r\n        <p>ул. Пушкинская, 270</p>\r\n        <p>ул. Холмогорова, 11</p>\r\n        <p>ул. Баранова, 55</p>\r\n    </div>\r\n\r\n    <div class=\"location-map\">\r\n        <iframe src=\"https://yandex.ru/map-widget/v1/?um=constructor%3A484fa3e7973acd9e3382ddfbfacd8592c0ea7df9aab1e1cd44dc8a9c4f8bce83&amp;source=constructor\" frameborder=\"0\"></iframe>\r\n    </div>\r\n\r\n</div>\r\n\r\n</section>', '<h2>Свяжитесь с нами!</h2>', 1),
 (12, 'stock', 'Акции', '<div class=\"content-container\">\r\n\r\n    <section class=\"section\">\r\n        <h2 class=\"section-title\">Скидки</h2>\r\n\r\n        <div class=\"cards\">\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/pillow.png\" alt=\"Уют в деталях\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Уют в деталях</h3>\r\n                    <p>-30% на все декоративные подушки и мягкие пледы.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/lamp.png\" alt=\"Магия света\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Магия света</h3>\r\n                    <p>Скидки до 40% на дизайнерские светильники и гирлянды.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/kitchen.png\" alt=\"Эстетика завтраков\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Эстетика завтраков</h3>\r\n                    <p>Кухонная керамика и сервировочные доски со скидкой 25%</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/aroma.png\" alt=\"Ароматный дом\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Ароматный дом</h3>\r\n                    <p>-20% на диффузоры, соевые свечи и благовония.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/storage.png\" alt=\"Порядок со вкусом\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Порядок со вкусом</h3>\r\n                    <p>Скидка на стильные корзины и системы хранения.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/sale.png\" alt=\"Финальный сейл\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Финальный сейл</h3>\r\n                    <p>До -50% на товары из коллекции прошлого сезона.</p>\r\n                </div>\r\n            </div>\r\n\r\n        </div>\r\n    </section>\r\n\r\n    <section class=\"section\">\r\n        <h2 class=\"section-title\">Специальные предложения</h2>\r\n\r\n        <div class=\"cards\">\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/bath.png\" alt=\"Сет для ванной\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Сет для ванной</h3>\r\n                    <p>При покупке дозатора и мыльницы — стакан для щеток в подарок.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/welcome.png\" alt=\"Добро пожаловать\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Добро пожаловать</h3>\r\n                    <p>Скидка 10% на ваш первый заказ при подписке на новости.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/posters.png\" alt=\"Готовое решение\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Готовое решение</h3>\r\n                    <p>Соберите сет из 3-х постеров и получите рамки бесплатно.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/delivery.png\" alt=\"Бесплатная доставка\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Бесплатная доставка</h3>\r\n                    <p>Привезем ваш декор бережно и бесплатно при заказе от 5 000 руб.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/gift.png\" alt=\"Дарите красиво\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Дарите красиво</h3>\r\n                    <p>При покупке любого декора — праздничная упаковка в подарок.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/club.png\" alt=\"Закрытый клуб\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Закрытый клуб</h3>\r\n                    <p>Специальные цены только для участников программы лояльности.</p>\r\n                </div>\r\n            </div>\r\n\r\n        </div>\r\n    </section>\r\n</div>', '<h2>Найди своё</h2>', 1),
 (13, 'basket', 'Корзина', '<div class=\"cart-container\">\r\n    <h1 class=\"cart-title\">Моя корзина</h1>\r\n\r\n    <div class=\"cart-top\">\r\n        <div class=\"coupon\">\r\n            <label for=\"coupon-input\">Введите код купона для скидки:</label>\r\n            <form id=\"promoForm\" class=\"coupon-input-wrap\">\r\n                <input type=\"text\" name=\"promo_code\">\r\n                <button type=\"submit\" name=\"apply_promo\" class=\"coupon-btn\">›</button>\r\n            </form>\r\n        </div>\r\n        <div class=\"total\">\r\n            <p class=\"total-label\">Итого:</p>\r\n            <p id=\"sum\" class=\"total-sum\">{{ final_price }} руб.</p>\r\n        </div>\r\n        <a href=\"/order\" class=\"arrange\">Оформить заказ</a>\r\n    </div>\r\n\r\n    <div class=\"cart-bottom\">\r\n\r\n        <div class=\"cart-bottom-header\">\r\n            <p class=\"items-count\">В корзине {{ value }}</p>\r\n        </div>\r\n\r\n        <!-- товар -->\r\n        {{ product }}\r\n    </div>\r\n</div>', '<h2 class=\"items-count\">В корзине {{ value }}</h2>', 0),
-(14, 'profile', 'Личный кабинет', '<section class=\"profile\">\r\n    <div class=\"center row\">\r\n        <div class=\"profile-sidebar\">\r\n            <p class=\"profile-email\">{{ email }}</p>\r\n            <a href=\"/profile/settings\" class=\"profile-button\">Редактировать профиль</a>\r\n            <form method=\"POST\">\r\n                <input type=\"hidden\" name=\"logout\" value=\"1\">\r\n                <button class=\"logout-button\" type=\"submit\">Выйти</button>\r\n            </form>\r\n            <button onclick=\"history.back();\" class=\"logout-button\">Назад</button>\r\n        </div>\r\n\r\n        <div class=\"profile-content\">\r\n            <h1>{{ login }}</h1>\r\n            <div class=\"orders\">\r\n                <h2>История заказов</h2>\r\n                <div class=\"order-card\">\r\n                    <div class=\"order-info\">\r\n                        <h3>Заказ №10214</h3>\r\n                        <p>12 марта 2025</p>\r\n                    </div>\r\n\r\n                    <span class=\"status delivered\">\r\n                        Доставлено\r\n                    </span>\r\n                </div>\r\n\r\n                <div class=\"order-card\">\r\n                    <div class=\"order-info\">\r\n                        <h3>Заказ №10187</h3>\r\n                        <p>5 марта 2025</p>\r\n                    </div>\r\n\r\n                    <span class=\"status process\">\r\n                        В пути\r\n                    </span>\r\n                </div>\r\n\r\n                <div class=\"order-card\">\r\n                    <div class=\"order-info\">\r\n                        <h3>Заказ №10102</h3>\r\n                        <p>20 февраля 2025</p>\r\n                    </div>\r\n\r\n                    <span class=\"status cancel\">\r\n                        Отменён\r\n                    </span>\r\n                </div>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n</section>', '<h2>Ваш личный кабинет</h2>', 0),
+(14, 'profile', 'Личный кабинет', '<section class=\"profile\">\n    <div class=\"center row\">\n        <div class=\"profile-sidebar\">\n            <p class=\"profile-email\">{{ email }}</p>\n            <a href=\"/profile/settings\" class=\"profile-button\">Редактировать профиль</a>\n            <form method=\"POST\">\n                <input type=\"hidden\" name=\"logout\" value=\"1\">\n                <button class=\"logout-button\" type=\"submit\">Выйти</button>\n            </form>\n            <button onclick=\"history.back();\" class=\"logout-button\">Назад</button>\n        </div>\n\n        <div class=\"profile-content\">\n            <h1>{{ login }}</h1>\n            <div class=\"orders\">\n                <h2>История заказов</h2>\n                {{ orders }}\n            </div>\n        </div>\n    </div>\n</section>', '<h2>Ваш личный кабинет</h2>', 0),
 (15, 'goods', 'Товары', '', '', 2),
 (16, 'reviews1', 'Отзывы', '', '', 2),
 (17, 'users', 'Пользователи', '', '', 2),
@@ -336,7 +345,7 @@ ALTER TABLE `feedback`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT для таблицы `pages`
@@ -348,7 +357,7 @@ ALTER TABLE `pages`
 -- AUTO_INCREMENT для таблицы `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT для таблицы `reviews`

@@ -14,39 +14,7 @@
             <h1>{{ login }}</h1>
             <div class="orders">
                 <h2>История заказов</h2>
-                <div class="order-card">
-                    <div class="order-info">
-                        <h3>Заказ №10214</h3>
-                        <p>12 марта 2025</p>
-                    </div>
-
-                    <span class="status delivered">
-                        Доставлено
-                    </span>
-                </div>
-
-                <div class="order-card">
-                    <div class="order-info">
-                        <h3>Заказ №10187</h3>
-                        <p>5 марта 2025</p>
-                    </div>
-
-                    <span class="status process">
-                        В пути
-                    </span>
-                </div>
-
-                <div class="order-card">
-                    <div class="order-info">
-                        <h3>Заказ №10102</h3>
-                        <p>20 февраля 2025</p>
-                    </div>
-
-                    <span class="status cancel">
-                        Отменён
-                    </span>
-                </div>
-
+                {{ orders }}
             </div>
         </div>
     </div>

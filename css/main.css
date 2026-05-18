@@ -908,6 +908,82 @@ footer h3, footer p {
     margin-bottom: 25px;
 }
 
+.empty-orders {
+    margin-top: 20px;
+    color: #777;
+}
+
+.order-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.order-info h3 {
+    margin-bottom: 8px;
+}
+
+.order-info p {
+    margin: 5px 0;
+}
+
+.status {
+    height: fit-content;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.status.delivered {
+    color: #198754;
+    background: #d1e7dd;
+}
+
+.status.process {
+    color: #856404;
+    background: #fff3cd;
+}
+
+.status.cancel {
+    color: #842029;
+    background: #f8d7da;
+}
+
+.order-products {
+    width: 100%;
+    margin-top: 10px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.order-product-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 6px 0;
+}
+
+.order-product-name {
+    flex: 1;
+}
+
+.order-product-qty {
+    white-space: nowrap;
+    color: #777;
+}
+
+.order-product-price {
+    white-space: nowrap;
+    font-weight: 600;
+}
+
 
 /* КАРТОЧКА ЗАКАЗА */
 
