@@ -29,6 +29,8 @@
         include './scripts/profile.php';
     } elseif ($current_section == 'basket') {
         include './scripts/basket.php';
+    } elseif ($current_section == 'stock') {
+        include './scripts/stock.php';
     } elseif ($current_section == 'order') {
         include './scripts/order.php';
     } elseif ($current_section == 'reviews') {
