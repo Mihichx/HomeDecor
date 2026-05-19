@@ -1,44 +1,17 @@
-<?php 
-    $redirect_url = "/profile"; 
-    include './scripts/entrance.php';  // Логика логина/регистрации (должны быть $status и $color_status и redirect  пор желанию;)
-    
-    // Логика обновления ЛК
-    if (isset($_POST['update_profile']) && isset($_SESSION['user']['id'])) {
-        $user_id = $_SESSION['user']['id'];
-        
-        $stmt = $pdo->prepare("SELECT password FROM users WHERE id = :id");
-        $stmt->execute([':id' => $user_id]);
-        $current_db_user = $stmt->fetch();
+<?php
+    $redirect_url = "/profile";
+    include './scripts/entrance.php';
 
-        if ($current_db_user && password_verify($_POST['old_password'], $current_db_user['password'])) {
-            $newData = [
-                'login'    => trim($_POST['login']),
-                'email'    => trim($_POST['email']),
-                'password' => $_POST['new_password']
-            ];
-
-            if (updateUser($pdo, $user_id, $newData)) {
-                $_SESSION['user']['login'] = $newData['login'];
-                $_SESSION['user']['email'] = $newData['email'];
-                $color_status = "green";
-            } else {
-                $status = "Ошибка при обновлении!";
-            }
-        } else {
-            $status = "Старый пароль введен неверно!";
-        }
-    }
-
-    // --- AJAX ОТВЕТ ---
-    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+    // AJAX ответ после логина/регистрации
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
         header('Content-Type: application/json');
-        
+
         $out = [
             'status' => $status ?? '',
-            'color'  => $color_status ?? ''
+            'color' => $color_status ?? ''
         ];
 
-        if (isset($color_status) && $color_status === 'green') {  // Редиректим когда авторизовались 
+        if (isset($color_status) && $color_status === 'green') {
             $out['redirect'] = $redirect_url;
         }
 
@@ -46,29 +19,40 @@
         exit;
     }
 
-    // Определяем, какую страницу показать
-    if (isset($_SESSION['user']['id'])) {
-        // Логика для наших !
-        if (isset($params[1]) && $params[1] === 'settings') {
-            $page = getPageBySlug($pdo, 'settings');
-            $title = "Настройки профиля";
-        } else {
-            $page = getPageBySlug($pdo, 'profile');
-            $title = "Мой профиль";
-        }
+
+    // Если пользователь НЕ авторизован — показываем вход или регистрацию
+    if (!isset($_SESSION['user']['id'])) {
+        $pageSlug = isset($_POST['registration']) ? 'registration' : 'entrance';
+
+        $page = getPageBySlug($pdo, $pageSlug);
+        $title = ($pageSlug === 'registration') ? 'Регистрация' : 'Вход';
         $content = $page['content'];
 
-        $content = str_replace('{{ login }}', htmlspecialchars($_SESSION['user']['login']), $content);
-        $content = str_replace('{{ email }}', htmlspecialchars($_SESSION['user']['email']), $content);
-    } else {
-        // Логика для гостей
-        $pageSlug = isset($_POST['registration']) ? 'registration' : 'entrance';
-        $page = getPageBySlug($pdo, $pageSlug);
-        $title = ($pageSlug === 'registration') ? "Регистрация" : "Вход";
-        $content = $page['content'];
+        return;
     }
 
-    // история заказов
+
+    // Если пользователь авторизован и открыл настройки
+    if (isset($params[1]) && $params[1] === 'settings') {
+        $page = getPageBySlug($pdo, 'settings');
+        $title = 'Настройки профиля';
+        $content = $page['content'];
+
+        $content = str_replace(
+            ['{{ login }}', '{{ email }}'],
+            [
+                htmlspecialchars($_SESSION['user']['login'], ENT_QUOTES, 'UTF-8'),
+                htmlspecialchars($_SESSION['user']['email'], ENT_QUOTES, 'UTF-8')
+            ],
+            $content
+        );
+
+        return;
+    }
+
+
+    // Ниже уже только профиль авторизованного пользователя + история заказов
+
     $page = getPageBySlug($pdo, 'profile');
     $title = $page['title'] ?? 'Профиль';
 
@@ -78,14 +62,12 @@
         }
     }
 
-    // функция красиво форматирует цену
     if (!function_exists('hd_format_price')) {
         function hd_format_price($price) {
             return number_format((float)$price, 0, '', ' ');
         }
     }
 
-    // дату из базы превращает в русский формат
     if (!function_exists('hd_format_date_ru')) {
         function hd_format_date_ru($date) {
             $months = [
@@ -117,7 +99,6 @@
         }
     }
 
-    // переводит статус заказа из базы в понятный текст
     if (!function_exists('hd_status_info')) {
         function hd_status_info($status) {
             $status = strtolower((string)$status);
@@ -153,7 +134,6 @@
         }
     }
 
-    // Функция названия способа оплаты
     if (!function_exists('hd_payment_name')) {
         function hd_payment_name($payment) {
             switch ($payment) {
@@ -175,15 +155,8 @@
         }
     }
 
-    if (!isset($_SESSION['user']['login'])) {
-        $content = '<h2>Сначала авторизуйтесь</h2>';
-        return;
-    }
-
-    // берётся ID текущего пользователя из сессии
     $user_id = (int)($_SESSION['user']['id'] ?? 0);
 
-    // выбирает заказы из таблицы orders
     $stmt = $pdo->prepare("
         SELECT 
             id,
@@ -202,7 +175,6 @@
         ORDER BY created_at DESC, id DESC
     ");
 
-    // подставляется ID пользователя
     $stmt->execute([$user_id]);
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -212,17 +184,15 @@
         $orders_html = '<p class="empty-orders">У вас пока нет заказов.</p>';
     } else {
         foreach ($orders as $order) {
-            $status_info = hd_status_info($order['status'] ?? 'process'); //Берётся статус заказа из базы
+            $status_info = hd_status_info($order['status'] ?? 'process');
 
             $products = json_decode($order['products_json'] ?? '[]', true);
             $products_html = '';
 
-            // Формирование списка товаров внутри заказа
             if (is_array($products) && !empty($products)) {
                 $products_html .= '<div class="order-products">';
 
                 foreach ($products as $key => $product) {
-
                     if (is_array($product)) {
                         $product_id = (int)($product['id'] ?? 0);
                         $product_name = $product['name'] ?? ('Товар №' . $product_id);
