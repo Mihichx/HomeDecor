@@ -31,6 +31,8 @@
         include './scripts/basket.php';
     } elseif ($current_section == 'order') {
         include './scripts/order.php';
+    } elseif ($current_section == 'reviews') {
+        include './scripts/reviews.php';
     } else {
         $slug = $current_section;
         include './scripts/page.php';

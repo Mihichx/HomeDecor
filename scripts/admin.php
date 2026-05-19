@@ -9,7 +9,6 @@
     $header = '';
     $content = '';
 
-    $redirect_url = "/admin"; 
     include './scripts/entrance.php';  // Логика логина/регистрации
 
     // Проверяем, авторизован ли пользователь и является ли он админом или модером
@@ -65,7 +64,7 @@
                 'goods' => [
                     'db_table' => 'products',
                     'title'    => 'Управление товарами',
-                    'fields'   => ['id' => 'ID', 'category_id' => 'Категория', 'name' => 'Название', 'price' => 'Цена']
+                    'fields'   => ['id' => 'ID', 'category_id' => 'Категория', 'name' => 'Название', 'price' => 'Цена', 'image' => 'Изображение', 'description' => 'Описание', 'more_description' => 'Большое описание', 'material' => 'Материал', 'color' => 'Цвет', 'height' => 'Высота', 'length' => 'Длина', 'width' => 'Ширина', 'weight' => 'Вес']
                 ],
                 'reviews1' => [
                     'db_table' => 'reviews', 
@@ -76,6 +75,18 @@
                     'db_table' => 'users', 
                     'title'    => 'Список пользователей',
                     'fields'   => ['id' => 'ID', 'login' => 'Логин', 'email' => 'Email', 'role' => 'Роль']
+                ],
+                'pages' => [
+                    'db_table' => 'pages',
+                    'title'    => 'Управление страницами сайта',
+                    'fields'   => [
+                        'id'    => 'ID',
+                        'slug'  => 'URL-адрес (about, contacts, actions)',
+                        'title' => 'Заголовок страницы',
+                        'content' => 'Содержимое (HTML)',
+                        'header_content' => 'Контент шапки',
+                        'in_menu' => 'Какое-меню (0 - не в меню, 1 - верхнее, 2 - админское)'
+                    ]
                 ]
             ];
 
@@ -261,21 +272,21 @@
                         
                         if ($field === 'role') {
                             $content .= '
-                            <select id="field_role" name="role" required style="width:100%; padding:8px; border:1px solid #ccc;">
+                            <select id="field_role" name="role" style="width:100%; padding:8px; border:1px solid #ccc;">
                                 <option value="user">User</option>
                                 <option value="moderator">Moderator</option>    
                             </select>';
                         } 
                         // Выпадающий список категорий, который строится ДИНАМИЧЕСКИ из БД (таблица category)
                         elseif ($field === 'category_id' && $slug === 'goods') {
-                            $content .= '<select id="field_category_id" name="category_id" required style="width:100%; padding:8px; border:1px solid #ccc;">';
+                            $content .= '<select id="field_category_id" name="category_id" style="width:100%; padding:8px; border:1px solid #ccc;">';
                             foreach ($all_categories as $cat) {
                                 $content .= '<option value="' . $cat['id'] . '">' . htmlspecialchars($cat['name']) . '</option>';
                             }
                             $content .= '</select>';
                         } 
                         else {
-                            $content .= '<input type="text" id="field_' . $field . '" name="' . $field . '" required style="width:100%; padding:8px; border:1px solid #ccc; box-sizing:border-box;">';
+                            $content .= '<input type="text" id="field_' . $field . '" name="' . $field . '" style="width:100%; padding:8px; border:1px solid #ccc; box-sizing:border-box;">';
                         }
                         $content .= '</div>';
                     }
@@ -359,9 +370,9 @@
         header('Content-Type: application/json');
         
         $out = [
-            'status'   => $status ?? '',
-            'color'    => $color_status ?? '',
-            'redirect' => $redirect_url
+            'status'   => 'Успешно',
+            'color'    => 'green',
+            'redirect' => '/admin/' . $slug
         ];
 
         echo json_encode($out);

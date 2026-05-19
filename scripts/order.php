@@ -78,21 +78,13 @@
             ];
         }
 
-        if (empty($order_products)) {
-            echo json_encode([
-                'status' => 'Ваша корзина пуста',
-                'color' => 'red'
-            ]);
-            exit;
-        }
-
         $products_json = json_encode($order_products, JSON_UNESCAPED_UNICODE);
 
         // Вставляем запись в таблицу заказов
         $stmt = $pdo->prepare("INSERT INTO orders (user_id, city, phone, address, postal_code, notes, payment_method, total_price, products_json, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
 
         $order_saved = $stmt->execute([
-            $user_id, $city, $phone, $address, $postal_code, $notes, $payment, $final_price, $products_json, 'process'
+            $user_id, $city, $phone, $address, $postal_code, $notes, $payment, $final_price, $products_json, 'new'
         ]);
 
         if ($order_saved) {

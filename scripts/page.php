@@ -15,33 +15,6 @@
         return;
     }
 
-    // Форма отправки отзыва
-    if (isset($_POST['send_review'])) {
-        $response = ['status' => '', 'color' => 'red'];
-
-        if (isset($_SESSION['user']['login'])) {
-            $name = trim($_POST['rev_name']);
-            $rating = $_POST['rev_rating'];
-            $text = trim($_POST['rev_text']);
-
-            if (!empty($name) && !empty($text)) {
-                addReview($pdo, $name, $rating, $text);
-                $response = ['status' => "Спасибо за отзыв!", 'color' => "green"];
-            } else {
-                $response['status'] = "Заполните все поля!";
-            }
-        } else {
-            $response['status'] = "Сначала авторизуйтесь";
-        }
-
-        // --- AJAX ОТВЕТ ---
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            header('Content-Type: application/json');
-            echo json_encode($response);    
-            exit; 
-        }
-    }
-
     // Форма отправки обратной связи
     if (isset($_POST['send_feedback'])) {
         $response = ['status' => '', 'color' => 'red'];
