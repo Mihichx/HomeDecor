@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 19 2026 г., 17:51
--- Версия сервера: 8.0.30
--- Версия PHP: 8.1.9
+-- Время создания: Май 19 2026 г., 22:54
+-- Версия сервера: 8.0.19
+-- Версия PHP: 7.1.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- База данных: `HomeDecor`
+-- База данных: `homedecor`
 --
 
 -- --------------------------------------------------------
@@ -134,7 +134,7 @@ INSERT INTO `pages` (`id`, `slug`, `title`, `content`, `header_content`, `in_men
 (9, 'admin', 'Админпанель', '<div class=\'center column\'>\r\n    <h1 class=\'margin15\'>Админ-панель</h1>\r\n    <form class=\'center margin15 column\' method=\'POST\' data-no-ajax>\r\n        <input class=\'margin5 admin-input\' type=\'login\' name=\'login\' placeholder=\'Логин\' required>\r\n        <input class=\'margin5 admin-input\' type=\'password\' name=\'password\' placeholder=\'Пароль\' required>\r\n        <button class=\'margin5 admin-button hover\' type=\'submit\' name=\'action\'>Вход</button>\r\n    </form>\r\n</div>', '<nav class=\"center row\">\r\n    {{ menu }}\r\n</nav>\r\n<div class=\"header-content center \">\r\n        <a class=\"hover center row\" href=\"/admin\">\r\n            <h3>АДМИН ДЛЯ <br> ДОМА</h3>\r\n            <img src=\"/img/logo.png\" loading = \"lazy\" alt=\"Логотип\" style=\"max-width: 50px; margin: 20px;\">\r\n        </a>\r\n</div>', 2),
 (10, 'reviews', 'Отзывы', '<div class=\"container-reviews\">\r\n    <section class=\"top-text\">\r\n        <p>Делитесь впечатлениями и читайте, что думают другие о магазине «Дом Деталей»!</p>\r\n    </section>\r\n\r\n    <!-- Отзывы -->\r\n    <section class=\"review\">\r\n        {{ reviews }}\r\n    </section>\r\n\r\n    <section class=\"form-section center column\">\r\n        <h2>Оставить свой отзыв</h2>\r\n        <form class=\"review-form center column\">\r\n            <input type=\"text\" name=\"rev_name\" placeholder=\"Имя\" value=\"{{ login }}\" readonly>\r\n            <select name=\"rev_rating\">\r\n                <option value=\"5\">★★★★★</option>\r\n                <option value=\"4\">★★★★</option>\r\n                <option value=\"3\">★★★</option>\r\n                <option value=\"2\">★★</option>\r\n                <option value=\"1\">★</option>\r\n            </select>\r\n            <textarea name=\"rev_text\" placeholder=\"Ваш отзыв\"></textarea>\r\n            <button type=\"submit\" name=\"send_review\">Отправить</button>\r\n        </form>\r\n    </section>\r\n</div>', '<h2>Отзывы наших покупателей</h2>', 1),
 (11, 'сontacts', 'Контакты', '<section class=\"contact-info\">\r\n\r\n<div class=\"contact-text\">\r\n    <p>\r\n        Наполните дом уютом в любое удобное время — наш сайт открыт для заказов 24/7.\r\n        Если вам нужна помощь в выборе декора или возникли вопросы по заказу,\r\n        мы всегда связи! Позвоните на горячую линию или напишите на электронную почту.\r\n        Также вы можете оставить заявку через форму обратной связи, и наш менеджер\r\n        перезвонит вам в ближайшее время.\r\n    </p>\r\n</div>\r\n\r\n<div class=\"contact-items\">\r\n\r\n    <div class=\"contact-item\">\r\n        <p>hello@dom-detali.ru</p>\r\n    </div>\r\n\r\n    <div class=\"contact-item\">\r\n        <p>+7 947 485 98 87</p>\r\n    </div>\r\n\r\n    <div class=\"contact-item\">\r\n        <p>+7 947 485 98 87</p>\r\n    </div>\r\n\r\n</div>\r\n\r\n</section>\r\n\r\n\r\n<section class=\"feedback\">\r\n\r\n<h2 class=\"feedback-title\">Обратная связь</h2>\r\n\r\n<form class=\"feedback-form\">\r\n    <input name=\"rev_name1\" type=\"text\" placeholder=\"Ваше имя\">\r\n    <input name=\"rev_email\" type=\"email\" placeholder=\"Ваш email\">\r\n    <textarea name=\"rev_text1\" placeholder=\"Ваше сообщение\"></textarea>\r\n    <button type=\"submit\" name=\"send_feedback\">Отправить</button>\r\n</form>\r\n\r\n</section>\r\n\r\n\r\n<section class=\"location\">\r\n\r\n<div class=\"location-content\">\r\n\r\n    <div class=\"location-text\">\r\n        <h2>Где нас найти:</h2>\r\n\r\n        <p>ул. Пушкинская, 270</p>\r\n        <p>ул. Холмогорова, 11</p>\r\n        <p>ул. Баранова, 55</p>\r\n    </div>\r\n\r\n    <div class=\"location-map\">\r\n        <iframe src=\"https://yandex.ru/map-widget/v1/?um=constructor%3A484fa3e7973acd9e3382ddfbfacd8592c0ea7df9aab1e1cd44dc8a9c4f8bce83&amp;source=constructor\" frameborder=\"0\"></iframe>\r\n    </div>\r\n\r\n</div>\r\n\r\n</section>', '<h2>Свяжитесь с нами!</h2>', 1),
-(12, 'stock', 'Акции', '<div class=\"content-container\">\r\n\r\n    <section class=\"section\">\r\n        <h2 class=\"section-title\">Скидки</h2>\r\n\r\n        <div class=\"cards\">\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/pillow.png\" alt=\"Уют в деталях\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Уют в деталях</h3>\r\n                    <p>-30% на все декоративные подушки и мягкие пледы.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/lamp.png\" alt=\"Магия света\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Магия света</h3>\r\n                    <p>Скидки до 40% на дизайнерские светильники и гирлянды.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/kitchen.png\" alt=\"Эстетика завтраков\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Эстетика завтраков</h3>\r\n                    <p>Кухонная керамика и сервировочные доски со скидкой 25%</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/aroma.png\" alt=\"Ароматный дом\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Ароматный дом</h3>\r\n                    <p>-20% на диффузоры, соевые свечи и благовония.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/storage.png\" alt=\"Порядок со вкусом\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Порядок со вкусом</h3>\r\n                    <p>Скидка на стильные корзины и системы хранения.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/sale.png\" alt=\"Финальный сейл\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Финальный сейл</h3>\r\n                    <p>До -50% на товары из коллекции прошлого сезона.</p>\r\n                </div>\r\n            </div>\r\n\r\n        </div>\r\n    </section>\r\n\r\n    <section class=\"section\">\r\n        <h2 class=\"section-title\">Специальные предложения</h2>\r\n\r\n        <div class=\"cards\">\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/bath.png\" alt=\"Сет для ванной\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Сет для ванной</h3>\r\n                    <p>При покупке дозатора и мыльницы — стакан для щеток в подарок.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/welcome.png\" alt=\"Добро пожаловать\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Добро пожаловать</h3>\r\n                    <p>Скидка 10% на ваш первый заказ при подписке на новости.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/posters.png\" alt=\"Готовое решение\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Готовое решение</h3>\r\n                    <p>Соберите сет из 3-х постеров и получите рамки бесплатно.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/delivery.png\" alt=\"Бесплатная доставка\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Бесплатная доставка</h3>\r\n                    <p>Привезем ваш декор бережно и бесплатно при заказе от 5 000 руб.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/gift.png\" alt=\"Дарите красиво\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Дарите красиво</h3>\r\n                    <p>При покупке любого декора — праздничная упаковка в подарок.</p>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"card\">\r\n                <img src=\"./img/club.png\" alt=\"Закрытый клуб\">\r\n\r\n                <div class=\"card-content\">\r\n                    <h3>Закрытый клуб</h3>\r\n                    <p>Специальные цены только для участников программы лояльности.</p>\r\n                </div>\r\n            </div>\r\n\r\n        </div>\r\n    </section>\r\n</div>', '<h2>Найди своё</h2>', 1),
+(12, 'stock', 'Акции', '<div class=\"content-container\">\r\n\r\n<section class=\"section\">\r\n    <h2 class=\"section-title\">Скидки</h2>\r\n\r\n    <div class=\"cards\">\r\n        {{ sales }}\r\n    </div>\r\n</section>\r\n\r\n<section class=\"section\">\r\n    <h2 class=\"section-title\">Специальные предложения</h2>\r\n\r\n    <div class=\"cards\">\r\n        {{ special }}\r\n    </div>\r\n</section>\r\n\r\n</div>', '<h2>Найди своё</h2>', 1),
 (13, 'basket', 'Корзина', '<div class=\"cart-container\">\r\n    <h1 class=\"cart-title\">Моя корзина</h1>\r\n\r\n    <div class=\"cart-top\">\r\n        <div class=\"coupon\">\r\n            <label for=\"coupon-input\">Введите код купона для скидки:</label>\r\n            <form id=\"promoForm\" class=\"coupon-input-wrap\">\r\n                <input type=\"text\" name=\"promo_code\">\r\n                <button type=\"submit\" name=\"apply_promo\" class=\"coupon-btn\">›</button>\r\n            </form>\r\n        </div>\r\n        <div class=\"total\">\r\n            <p class=\"total-label\">Итого:</p>\r\n            <p id=\"sum\" class=\"total-sum\">{{ final_price }} руб.</p>\r\n        </div>\r\n        <a href=\"/order\" class=\"arrange\">Оформить заказ</a>\r\n    </div>\r\n\r\n    <div class=\"cart-bottom\">\r\n\r\n        <div class=\"cart-bottom-header\">\r\n            <p class=\"items-count\">В корзине {{ value }}</p>\r\n        </div>\r\n\r\n        <!-- товар -->\r\n        {{ product }}\r\n    </div>\r\n</div>', '<h2 class=\"items-count\">В корзине {{ value }}</h2>', 0),
 (14, 'profile', 'Личный кабинет', '<section class=\"profile\">\n    <div class=\"center row\">\n        <div class=\"profile-sidebar\">\n            <p class=\"profile-email\">{{ email }}</p>\n            <a href=\"/profile/settings\" class=\"profile-button\">Редактировать профиль</a>\n            <form method=\"POST\">\n                <input type=\"hidden\" name=\"logout\" value=\"1\">\n                <button class=\"logout-button\" type=\"submit\">Выйти</button>\n            </form>\n            <button onclick=\"history.back();\" class=\"logout-button\">Назад</button>\n        </div>\n\n        <div class=\"profile-content\">\n            <h1>{{ login }}</h1>\n            <div class=\"orders\">\n                <h2>История заказов</h2>\n                {{ orders }}\n            </div>\n        </div>\n    </div>\n</section>', '<h2>Ваш личный кабинет</h2>', 0),
 (15, 'goods', 'Товары', '', '', 2),
@@ -245,6 +245,38 @@ CREATE TABLE `settings` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `stock`
+--
+
+CREATE TABLE `stock` (
+  `id` int NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text,
+  `image` varchar(255) DEFAULT NULL,
+  `type` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `stock`
+--
+
+INSERT INTO `stock` (`id`, `title`, `description`, `image`, `type`) VALUES
+(4, 'Уют в деталях', '-30% на все декоративные подушки и мягкие пледы.', 'pillow.png', 'sales'),
+(5, 'Магия света', 'Скидки до 40% на дизайнерские светильники и гирлянды.', 'lamp.png', 'sales'),
+(6, 'Эстетика завтраков', 'Кухонная керамика и сервировочные доски со скидкой 25%', 'kitchen.png', 'sales'),
+(7, 'Ароматный дом', '-20% на диффузоры, соевые свечи и благовония.', 'aroma.png', 'sales'),
+(8, 'Порядок со вкусом', 'Скидка на стильные корзины и системы хранения.', 'storage.png', 'sales'),
+(9, 'Финальный сейл', 'До -50% на товары из коллекции прошлого сезона.', 'sale.png', 'sales'),
+(10, 'Сет для ванной', 'При покупке дозатора и мыльницы — стакан для щеток в подарок.', 'bath.png', 'special'),
+(11, 'Добро пожаловать', 'Скидка 10% на ваш первый заказ при подписке на новости.', 'welcome.png', 'special'),
+(12, 'Готовое решение', 'Соберите сет из 3-х постеров и получите рамки бесплатно.', 'posters.png', 'special'),
+(13, 'Бесплатная доставка', 'Привезем ваш декор бережно и бесплатно при заказе от 5 000 руб.', 'delivery.png', 'special'),
+(14, 'Дарите красиво', 'При покупке любого декора — праздничная упаковка в подарок.', 'gift.png', 'special'),
+(15, 'Закрытый клуб', 'Специальные цены только для участников программы лояльности.', 'club.png', 'special');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `users`
 --
 
@@ -267,7 +299,8 @@ INSERT INTO `users` (`id`, `login`, `email`, `password`, `role`, `date_regist`) 
 (9, 'Миш', '', '$2y$10$pdwKm/mno1UGxU63NZD/SeLeZNkd.DAiPPVIVOZHFTPJlrITsmGOO', 'user', '2026-05-07'),
 (22, 'Анна', 'anna@gmail.com', '$2y$10$qN0NY.s0BR5uZzpJn9SgiegnIGmXtiaJoBNiD83NmETdhL/B6Jara', 'user', '2026-05-19'),
 (23, 'Екатерина', 'ekaterina@gmail.com', '$2y$10$RQYTq.Eh7iQJKYtfCuefnuKanHJnCAnI1RO3oWXU.bUAmyDOmezdC', 'user', '2026-05-19'),
-(24, 'Дмитрий', 'dmitri@gmail.com', '$2y$10$D48gRN4v1.cqvfJO0SnqAOkw0BCU99PQLQWr6AICgQndQ2kQAKKqK', 'user', '2026-05-19');
+(24, 'Дмитрий', 'dmitri@gmail.com', '$2y$10$D48gRN4v1.cqvfJO0SnqAOkw0BCU99PQLQWr6AICgQndQ2kQAKKqK', 'user', '2026-05-19'),
+(25, 'df', 'suharevaangelina4@gmail.com', '$2y$10$K5iYyIVaXY5flYGMsG9Sf.9tPw1ZdnONgx3pcuB.DbrhPicl/fjpy', 'user', '2026-05-19');
 
 --
 -- Индексы сохранённых таблиц
@@ -323,6 +356,12 @@ ALTER TABLE `reviews`
 -- Индексы таблицы `settings`
 --
 ALTER TABLE `settings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `stock`
+--
+ALTER TABLE `stock`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -385,10 +424,16 @@ ALTER TABLE `settings`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT для таблицы `stock`
+--
+ALTER TABLE `stock`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
